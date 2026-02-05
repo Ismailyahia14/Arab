@@ -3,39 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="امتحان اللغة العربية - جامعة صنعاء">
     <title>امتحان اللغة العربية - جامعة صنعاء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* تحسينات CSS */
-        /* تم إضافة تحسينات للوصول والإمكانية */
+        /* جميع الأنماط تبقى كما هي مع تعديلات طفيفة */
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --text-color: #333;
-            --bg-color: #f9f9f9;
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --accent-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+            --light-color: #f7fafc;
+            --dark-color: #2d3748;
+            --bg-color: #ffffff;
+            --text-color: #2d3748;
             --card-bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
-            --primary-color: #3498db;
-            --secondary-color: #63b3ed;
-            --accent-color: #e74c3c;
-            --success-color: #2ecc71;
-            --warning-color: #f1c40f;
-            --light-color: #34495e;
-            --dark-color: #ecf0f1;
-            --text-color: #f7fafc;
-            --bg-color: #2d3748;
-            --card-bg: #4a5568;
+            --bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --card-bg: #2d3748;
+            --light-color: #4a5568;
+            --dark-color: #171923;
+            --border-color: #4a5568;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --primary-color: #4299e1;
+            --secondary-color: #63b3ed;
         }
 
         * {
@@ -46,182 +44,528 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
+            background: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
+            transition: var(--transition);
             min-height: 100vh;
+            direction: rtl;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
+        /* تحسين الوضع الليلي ليشمل كامل المساحة */
+        [data-theme="dark"] body {
+            background: #0f1721;
+        }
+        
+        [data-theme="dark"] .container {
+            background: transparent;
+        }
+        
+        [data-theme="dark"] .exam-header,
+        [data-theme="dark"] .instructions,
+        [data-theme="dark"] .exam-controls,
+        [data-theme="dark"] .questions-nav-grid,
+        [data-theme="dark"] .question-container,
+        [data-theme="dark"] .result-card,
+        [data-theme="dark"] .review-section,
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+        }
+        
+        [data-theme="dark"] .option {
+            background: #2d3748;
+        }
+        
+        [data-theme="dark"] .option-marker {
+            background: #4a5568;
+            color: #e2e8f0;
         }
 
-        /* تحسينات الوصول */
-        :focus {
-            outline: 3px solid var(--secondary-color);
-            outline-offset: 2px;
-        }
-
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px;
-            z-index: 9999;
-            text-decoration: none;
-        }
-
-        .skip-link:focus {
-            top: 0;
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* شريط التنقل */
+        /* شريط التنقل المتحرك - تم تصغير حجم الخط */
         .navbar {
-            background-color: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
             color: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
         }
 
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        /* تصغير حجم الخط في الترويسة */
         .logo h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeIn 1s ease;
         }
 
         .logo p {
-            font-size: 0.9rem;
-            opacity: 0.8;
+            font-size: 0.8rem;
+            opacity: 0.9;
         }
 
         .nav-controls {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
+            align-items: center;
         }
 
         .icon-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
-            font-size: 1.25rem;
-            cursor: pointer;
-            padding: 0.5rem;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1rem;
         }
 
         .icon-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px) rotate(5deg);
         }
 
-        /* الشاشات */
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .screen {
             display: none;
-            padding: 2rem 0;
+            animation: slideUp 0.6s ease;
         }
 
         .screen.active {
             display: block;
         }
 
-        /* شاشة البداية */
-        .start-screen {
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شاشة البداية - نقل مربع الأسئلة للأمام */
+        .exam-header {
             text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .start-screen h2 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-        }
-
-        .start-screen .instructions {
-            background-color: var(--card-bg);
+            margin-bottom: 2rem;
             padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
+            background: var(--card-bg);
+            border-radius: 18px;
             box-shadow: var(--shadow);
-            text-align: right;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
         }
 
-        .instruction-item {
+        .exam-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .exam-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        .university-info {
+            margin: 1.5rem 0;
+            padding: 1.2rem;
+            background: rgba(66, 153, 225, 0.05);
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+
+        .university-info h3 {
+            margin: 0.6rem 0;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.05), rgba(44, 82, 130, 0.05));
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
+        }
+
+        .info-item p:first-child {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item p:last-child {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
+            gap: 0.6rem;
         }
 
-        .instruction-item i {
+        .instructions ul {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 0.8rem;
+            padding-right: 1.8rem;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .instructions li:before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1rem;
+            background: rgba(56, 161, 105, 0.1);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الأزرار */
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .btn:hover:before {
+            animation: shine 1s;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            font-size: 1.2rem;
+            padding: 1.1rem 2.5rem;
+            margin: 2rem auto;
+            display: block;
+            min-width: 240px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.25);
+        }
+
+        .secondary-btn {
+            background: transparent;
             color: var(--secondary-color);
-            font-size: 1.25rem;
+            border: 2px solid var(--secondary-color);
         }
 
-        /* شاشة الامتحان */
-        .exam-header {
+        .secondary-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, var(--accent-color), #c53030);
+            color: white;
+            border: none;
+        }
+
+        .danger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(229, 62, 62, 0.25);
+        }
+
+        .success-btn {
+            background: linear-gradient(135deg, var(--success-color), #2f855a);
+            color: white;
+            border: none;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(56, 161, 105, 0.25);
+        }
+
+        /* شاشة الامتحان - إعادة ترتيب العناصر */
+        .exam-controls {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .progress-container {
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { right: 0; }
+            100% { right: 100%; }
+        }
+
+        .exam-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
         }
 
         .timer {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-
-        .timer.low {
-            animation: pulse 1s infinite;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            background: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 2px solid rgba(229, 62, 62, 0.2);
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
-        .question-container {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
+        /* شبكة التنقل بين الأسئلة */
+        .questions-nav-grid {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .questions-nav-grid h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .question-nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .question-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .question-nav-btn.current {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-nav-btn.answered {
+            background: rgba(56, 161, 105, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .question-nav-btn.unanswered {
+            background: rgba(214, 158, 46, 0.1);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        /* منطقة الأسئلة - تم نقلها للأمام */
+        .question-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.5s ease;
+            order: -1; /* يجعل السؤال يظهر أولاً */
         }
 
         .question-header {
@@ -229,184 +573,206 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--light-color);
-            padding-bottom: 1rem;
         }
 
         .question-number {
-            background-color: var(--secondary-color);
             color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            font-weight: bold;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
         }
 
         .question-text {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            font-weight: 600;
         }
 
         .options-container {
             display: grid;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .option {
-            background-color: var(--light-color);
-            border: 2px solid transparent;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
+            background: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateX(-4px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+        }
+
+        .option:hover:before {
+            opacity: 1;
         }
 
         .option.selected {
-            background-color: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.05);
+            transform: translateX(-4px);
+        }
+
+        .option.selected:before {
+            background: var(--success-color);
+            opacity: 1;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.1);
+            animation: pulse 0.5s;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(229, 62, 62, 0.1);
         }
 
         .option-marker {
-            width: 30px;
-            height: 30px;
-            background-color: rgba(255, 255, 255, 0.2);
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            background: var(--light-color);
+            color: var(--text-color);
+            flex-shrink: 0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
         }
 
         .option.selected .option-marker {
-            background-color: rgba(255, 255, 255, 0.3);
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
         }
 
+        .option-text {
+            flex: 1;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* تعديل أزرار التنقل لجعل "التالي" على يسار "السابق" */
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 2rem;
+            gap: 1rem;
+            flex-direction: row-reverse; /* هذا يجعل "التالي" على اليسار و"السابق" على اليمين */
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
+        .navigation-buttons .btn {
+            min-width: 140px;
+            flex: 1;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
         }
 
-        .primary-btn {
-            background-color: var(--secondary-color);
-            color: white;
+        .nav-btn-group {
+            display: flex;
+            gap: 0.8rem;
+            width: 100%;
+            justify-content: center;
         }
 
-        .primary-btn:hover {
-            background-color: #2980b9;
-        }
-
-        .secondary-btn {
-            background-color: var(--light-color);
-            color: var(--text-color);
-        }
-
-        .secondary-btn:hover {
-            background-color: #bdc3c7;
-        }
-
-        .danger-btn {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
-        .danger-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .questions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 0.5rem;
-            margin-top: 2rem;
-            padding: 1rem;
-            background-color: var(--card-bg);
+        /* تنبيه الأسئلة غير المحلولة */
+        .unanswered-alert {
+            background: linear-gradient(135deg, rgba(214, 158, 46, 0.1), rgba(214, 158, 46, 0.05));
+            border: 2px solid var(--warning-color);
+            color: var(--warning-color);
+            padding: 0.9rem 1.2rem;
             border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .question-nav-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            border: 2px solid var(--light-color);
-            background-color: transparent;
-            color: var(--text-color);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .question-nav-btn.answered {
-            background-color: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-        }
-
-        .question-nav-btn.current {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
         }
 
         /* شاشة النتائج */
-        .results-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .results-header {
             text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .results-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .score-display {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 1.5rem auto;
         }
 
         .score-circle {
+            width: 100%;
+            height: 100%;
             position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 2rem auto;
         }
 
-        .circle-bg {
+        .circle-bg, .circle-progress {
             fill: none;
-            stroke: var(--light-color);
-            stroke-width: 10;
-        }
-
-        .circle-progress {
-            fill: none;
-            stroke: var(--secondary-color);
             stroke-width: 10;
             stroke-linecap: round;
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
-            stroke-dasharray: 565;
-            stroke-dashoffset: 565;
-            transition: stroke-dashoffset 2s ease;
+        }
+
+        .circle-bg {
+            stroke: var(--light-color);
+        }
+
+        .circle-progress {
+            stroke: var(--secondary-color);
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .score-text {
@@ -417,167 +783,219 @@
             text-align: center;
         }
 
-        .score-number {
-            font-size: 3rem;
-            font-weight: bold;
+        .score-text h2 {
+            font-size: 2.5rem;
             color: var(--secondary-color);
+            margin-bottom: 0.4rem;
         }
 
-        .score-percentage {
-            font-size: 1.5rem;
+        .score-text p {
+            font-size: 1.3rem;
             color: var(--text-color);
         }
 
-        .results-stats {
+        .results-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        .stat-card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
+        .result-card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            text-align: center;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
         }
 
-        .stat-card.correct {
-            border-top: 4px solid var(--success-color);
+        .result-card:hover {
+            transform: translateY(-5px);
         }
 
-        .stat-card.wrong {
-            border-top: 4px solid var(--accent-color);
-        }
-
-        .stat-card.unanswered {
-            border-top: 4px solid var(--warning-color);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        /* زر العودة للأعلى */
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            background-color: var(--secondary-color);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 1.25rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            z-index: 1000;
-        }
-
-        .scroll-top-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-3px);
-        }
-
-        /* النوافذ المنبثقة */
-        .modal {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+        .result-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
+            gap: 0.6rem;
         }
 
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow);
+        .stat {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-color);
         }
 
-        .modal-buttons {
+        .results-controls {
             display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 1.5rem;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط */
+        .review-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-top: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .review-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.8rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .review-item {
+            background: var(--bg-color);
+            padding: 1.8rem;
+            border-radius: 16px;
+            border-right: 5px solid var(--accent-color);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-item:hover {
+            transform: translateX(-4px);
+        }
+
+        .review-question {
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .review-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .answer-item {
+            padding: 0.9rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s;
+        }
+
+        .answer-item.user-answer {
+            background: rgba(229, 62, 62, 0.08);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .answer-item.correct-answer {
+            background: rgba(56, 161, 105, 0.08);
+            border-right: 4px solid var(--success-color);
+        }
+
+        .answer-item i {
+            font-size: 1.1rem;
         }
 
         /* التذييل */
         .footer {
-            background-color: var(--primary-color);
-            color: white;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
-        /* مؤشر التحميل */
-        .spinner {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* تنبيه الأسئلة غير المجابة */
-        .unanswered-alert {
-            background-color: var(--warning-color);
+            padding: 2rem;
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            margin: 1rem 0;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        }
+
+        .footer p {
+            margin: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            animation: slideIn 0.5s ease;
+            gap: 0.6rem;
+            font-size: 1.3rem;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.8rem;
         }
 
         /* تصميم متجاوب */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
             }
             
-            .exam-header {
-                flex-direction: column;
-                align-items: stretch;
+            .exam-header h1 {
+                font-size: 1.5rem;
             }
             
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 1rem;
+            .student-info {
+                grid-template-columns: 1fr;
             }
             
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option {
+                padding: 1rem;
+            }
+            
+            .option-text {
+                font-size: 1rem;
             }
             
             .questions-grid {
@@ -589,236 +1007,305 @@
                 height: 40px;
                 font-size: 0.9rem;
             }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .navigation-buttons .btn {
+                width: 100%;
+            }
+            
+            .results-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-controls .btn {
+                width: 100%;
+            }
+            
+            .score-display {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .score-text h2 {
+                font-size: 2rem;
+            }
+            
+            .stat {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-btn-group {
+                flex-direction: column;
+            }
+        }
+
+        /* تأثيرات الكونفيتي */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* زر العودة إلى الأعلى */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.4);
+        }
+
+        /* تحسينات الوضع الليلي */
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .theme-transition {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <!-- رابط تخطي للمحتوى الرئيسي للمستخدمين ذوي الاحتياجات الخاصة -->
-    <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
-
     <!-- زر العودة إلى الأعلى -->
-    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="العودة إلى الأعلى">
+    <button id="scrollTopBtn" class="scroll-top-btn">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- شريط التنقل -->
-    <nav class="navbar" role="navigation" aria-label="التنقل الرئيسي">
+    <!-- شريط التنقل - تم حذف زر المساعدة -->
+    <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h1><i class="fas fa-university" aria-hidden="true"></i> ملتقى الطالب الجامعي</h1>
+                <h1><i class="fas fa-university"></i> ملتقى الطالب الجامعي</h1>
                 <p>جامعة صنعاء - كلية الإعلام</p>
             </div>
             <div class="nav-controls">
-                <button id="darkModeToggle" class="icon-btn" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">
+                <button id="darkModeToggle" class="icon-btn" title="الوضع الليلي">
                     <i class="fas fa-moon"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- المحتوى الرئيسي -->
-    <main id="main-content" class="container" role="main">
+    <!-- الشاشة الرئيسية -->
+    <main class="container">
         <!-- شاشة البداية -->
-        <section id="startScreen" class="screen active" aria-labelledby="startHeading">
-            <div class="start-screen">
-                <h2 id="startHeading">امتحان اللغة العربية</h2>
-                <p style="font-size: 1.2rem; color: var(--secondary-color); margin-bottom: 2rem;">
-                    اختبار شامل في قواعد اللغة العربية والأخطاء الشائعة
-                </p>
+        <section id="startScreen" class="screen active">
+            <div class="exam-header">
+                <h1><i class="fas fa-book-open"></i> امتحان اللغة العربية</h1>
                 
-                <div class="instructions">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">
-                        <i class="fas fa-info-circle"></i> تعليمات الامتحان
-                    </h3>
-                    
-                    <div class="instruction-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <strong>مدة الامتحان:</strong> 60 دقيقة
-                        </div>
-                    </div>
-                    
-                    <div class="instruction-item">
-                        <i class="fas fa-question-circle"></i>
-                        <div>
-                            <strong>عدد الأسئلة:</strong> 30 سؤالاً (يتم اختيارهم عشوائياً من بنك الأسئلة)
-                        </div>
-                    </div>
-                    
-                    <div class="instruction-item">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong>نوع الأسئلة:</strong> أسئلة متعددة الخيارات وأسئلة صح/خطأ
-                        </div>
-                    </div>
-                    
-                    <div class="instruction-item">
-                        <i class="fas fa-lightbulb"></i>
-                        <div>
-                            <strong>نصائح:</strong>
-                            <ul style="margin-right: 1.5rem; margin-top: 0.5rem;">
-                                <li>يمكنك الرجوع وتعديل إجاباتك خلال وقت الامتحان</li>
-                                <li>يتم حفظ الإجابات تلقائياً</li>
-                                <li>يمكنك التنقل بين الأسئلة باستخدام الشبكة في الأسفل</li>
-                                <li>أسئلة الخيارات يتم خلط خياراتها عشوائياً</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="university-info">
+                    <h3>جامعة صنعاء - كلية الإعلام</h3>
+                    <h3>اللجنة العلمية - الدفعة الخامسة والثلاثون</h3>
+                    <h3>دكتور المقرر: رصين صالح الرصين</h3>
                 </div>
                 
-                <div style="margin-top: 2.5rem;">
-                    <button id="startExamBtn" class="btn primary-btn" style="font-size: 1.2rem; padding: 1rem 2rem;">
-                        <i class="fas fa-play-circle"></i> بدء الامتحان
-                    </button>
+                <div class="student-info">
+                    <div class="info-item">
+                        <p>المقرر</p>
+                        <p>اللغة العربية</p>
+                    </div>
+                    <div class="info-item">
+                        <p>المستوى</p>
+                        <p>الأول</p>
+                    </div>
+                    <div class="info-item">
+                        <p>عدد الأسئلة</p>
+                        <p>30 سؤال (يتم اختيارها عشوائياً)</p>
+                    </div>
+                    <div class="info-item">
+                        <p>الوقت المخصص</p>
+                        <p>60 دقيقة</p>
+                    </div>
                 </div>
-                
-                <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-color); opacity: 0.7;">
-                    <p><i class="fas fa-sync-alt"></i> يمكنك استعادة الامتحان السابق إذا كان لديك تقدم محفوظ</p>
-                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> تعليمات الامتحان:</h3>
+                <ul>
+                    <li>اختر الإجابة الصحيحة بالنقر على الخيار المناسب</li>
+                    <li>يمكنك تغيير إجابتك قبل الانتقال للسؤال التالي</li>
+                    <li>سيتم تنبيهك عن الأسئلة التي لم تتم الإجابة عليها</li>
+                    <li>الوقت المخصص: 60 دقيقة</li>
+                    <li>لبدء الامتحان، اضغط على زر "ابدأ الامتحان"</li>
+                </ul>
+            </div>
+            
+            <button id="startExamBtn" class="btn start-btn">
+                <i class="fas fa-play-circle"></i> ابدأ الامتحان
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-color); opacity: 0.8; font-size: 1rem;">
+                <p><i class="fas fa-lightbulb"></i> تذكر: اجب مستعينًا بالله تعالى على الأسئلة التالية</p>
             </div>
         </section>
 
         <!-- شاشة الامتحان -->
-        <section id="examScreen" class="screen" aria-labelledby="examHeading" hidden>
-            <h2 id="examHeading" style="color: var(--primary-color); margin-bottom: 1rem;">
-                <i class="fas fa-graduation-cap"></i> امتحان اللغة العربية
-            </h2>
-            
-            <!-- مؤقت الامتحان -->
-            <div class="exam-header">
-                <div id="timer" class="timer">
-                    <i class="fas fa-clock"></i> <span id="timeDisplay">60:00</span>
+        <section id="examScreen" class="screen">
+            <!-- مربع الأسئلة في المقدمة -->
+            <div class="question-container">
+                <div class="question-header">
+                    <div id="questionNumber" class="question-number">س1</div>
+                    <div id="questionStatus" style="color: var(--warning-color); font-weight: bold;">
+                        <i class="fas fa-star"></i> جديد
+                    </div>
                 </div>
                 
-                <div style="display: flex; gap: 0.5rem;">
-                    <button id="saveExitBtn" class="btn secondary-btn">
-                        <i class="fas fa-save"></i> حفظ والخروج
+                <h2 id="questionText" class="question-text"></h2>
+                
+                <div id="optionsContainer" class="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="nextBtn" class="btn primary-btn" style="flex: 1;">
+                        التالي <i class="fas fa-arrow-left"></i>
                     </button>
+                    <button id="prevBtn" class="btn secondary-btn" style="flex: 1;">
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                </div>
+            </div>
+
+            <!-- شبكة التنقل بين الأسئلة -->
+            <div class="questions-nav-grid">
+                <h3><i class="fas fa-layer-group"></i> التنقل بين الأسئلة</h3>
+                <div id="questionsGrid" class="questions-grid">
+                    <!-- سيتم تعبئة أزرار الأسئلة ديناميكياً -->
+                </div>
+            </div>
+            
+            <div class="exam-controls">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="progressText">السؤال 1 من 30</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="exam-stats">
+                    <div id="timer" class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span>60:00</span>
+                    </div>
                     <button id="endExamBtn" class="btn danger-btn">
                         <i class="fas fa-flag-checkered"></i> إنهاء الاختبار
                     </button>
                 </div>
             </div>
             
-            <!-- شريط التقدم -->
-            <div style="margin: 1rem 0;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span id="progressText">السؤال 1 من 30</span>
-                    <span id="progressPercent">0%</span>
-                </div>
-                <div style="background-color: var(--light-color); height: 10px; border-radius: 5px; overflow: hidden;">
-                    <div id="progressFill" style="width: 0%; height: 100%; background-color: var(--secondary-color); transition: width 0.3s;"></div>
-                </div>
-            </div>
-            
-            <!-- تنبيه الأسئلة غير المجابة -->
+            <!-- تنبيه الأسئلة غير المحلولة -->
             <div id="unansweredAlert" class="unanswered-alert" style="display: none;">
                 <i class="fas fa-exclamation-triangle"></i>
-                <span id="unansweredCount">0</span> سؤال غير مجاب
-            </div>
-            
-            <!-- حاوية السؤال -->
-            <div class="question-container">
-                <div class="question-header">
-                    <div class="question-number" id="questionNumber">س1</div>
-                    <div id="questionStatus" style="color: var(--secondary-color); font-weight: bold;">
-                        <i class="fas fa-circle"></i> جديد
-                    </div>
-                </div>
-                
-                <div class="question-text" id="questionText">
-                    جاري تحميل السؤال...
-                </div>
-                
-                <div class="options-container" id="optionsContainer">
-                    <!-- سيتم إضافة الخيارات هنا ديناميكياً -->
-                </div>
-                
-                <!-- أزرار التنقل -->
-                <div class="navigation-buttons">
-                    <button id="prevBtn" class="btn secondary-btn" disabled>
-                        <i class="fas fa-arrow-right"></i> السابق
-                    </button>
-                    
-                    <button id="nextBtn" class="btn primary-btn">
-                        التالي <i class="fas fa-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- شبكة التنقل بين الأسئلة -->
-            <div style="margin-top: 2rem;">
-                <h3 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-th"></i> التنقل بين الأسئلة
-                </h3>
-                <div class="questions-grid" id="questionsGrid">
-                    <!-- سيتم إضافة أزرار الأسئلة هنا ديناميكياً -->
-                </div>
+                <span id="unansweredCount">0</span> أسئلة لم تتم الإجابة عليها
             </div>
         </section>
 
         <!-- شاشة النتائج -->
-        <section id="resultsScreen" class="screen" aria-labelledby="resultsHeading" hidden>
-            <div class="results-container">
-                <h2 id="resultsHeading" style="color: var(--primary-color); margin-bottom: 1rem;">
-                    <i class="fas fa-chart-bar"></i> نتائج الامتحان
-                </h2>
+        <section id="resultsScreen" class="screen">
+            <div class="results-header">
+                <h1><i class="fas fa-chart-line"></i> نتائج الامتحان</h1>
                 
-                <div class="score-circle">
-                    <svg viewBox="0 0 200 200">
-                        <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
-                        <circle id="scoreCircle" class="circle-progress" cx="100" cy="100" r="90" stroke-dasharray="565" stroke-dashoffset="565"></circle>
-                    </svg>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg width="260" height="260">
+                            <circle class="circle-bg" cx="130" cy="130" r="120"></circle>
+                            <circle id="scoreCircle" class="circle-progress" cx="130" cy="130" r="120"></circle>
+                        </svg>
+                    </div>
                     <div class="score-text">
-                        <div id="finalScore" class="score-number">0/30</div>
-                        <div id="percentage" class="score-percentage">0%</div>
+                        <h2 id="finalScore">0/30</h2>
+                        <p id="percentage">0%</p>
+                        <p id="grade" style="font-size: 1.1rem; color: var(--text-color); margin-top: 0.4rem;"></p>
                     </div>
                 </div>
-                
-                <div style="margin: 1.5rem 0;">
-                    <h3 id="grade" style="font-size: 2rem; color: var(--secondary-color);">-</h3>
-                    <p style="color: var(--text-color); opacity: 0.8;">التقدير النهائي</p>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> الإجابات الصحيحة</h3>
+                    <p id="correctAnswers" class="stat">0</p>
                 </div>
-                
-                <div class="results-stats">
-                    <div class="stat-card correct">
-                        <div id="correctAnswers" class="stat-number">0</div>
-                        <div>إجابات صحيحة</div>
-                    </div>
-                    
-                    <div class="stat-card wrong">
-                        <div id="wrongAnswers" class="stat-number">0</div>
-                        <div>إجابات خاطئة</div>
-                    </div>
-                    
-                    <div class="stat-card unanswered">
-                        <div id="unansweredStat" class="stat-number">0</div>
-                        <div>غير مجاب</div>
-                    </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-times-circle"></i> الإجابات الخاطئة</h3>
+                    <p id="wrongAnswers" class="stat">0</p>
                 </div>
-                
-                <div style="background-color: var(--card-bg); padding: 1.5rem; border-radius: 10px; margin: 2rem 0; box-shadow: var(--shadow);">
-                    <h4 style="margin-bottom: 1rem; color: var(--primary-color);">
-                        <i class="fas fa-clock"></i> معلومات الامتحان
-                    </h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: right;">
-                        <div>
-                            <div style="font-weight: bold;">الوقت المستغرق:</div>
-                            <div id="timeTaken">00:00</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: bold;">تاريخ الإنجاز:</div>
-                            <div id="completionDate">-</div>
-                        </div>
-                    </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-clock"></i> الوقت المستغرق</h3>
+                    <p id="timeTaken" class="stat">0:00</p>
                 </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                    <button id="reviewExamBtn" class="btn secondary-btn">
-                        <i class="fas fa-redo"></i> مراجعة الإجابات
-                    </button>
-                    <button id="newExamBtn" class="btn primary-btn">
-                        <i class="fas fa-plus-circle"></i> امتحان جديد
+                <div class="result-card">
+                    <h3><i class="fas fa-chart-bar"></i> النسبة المئوية</h3>
+                    <p id="scorePercentage" class="stat">0%</p>
+                </div>
+            </div>
+            
+            <div class="results-controls">
+                <button id="reviewBtn" class="btn secondary-btn">
+                    <i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة
+                </button>
+                <button id="newTestBtn" class="btn primary-btn">
+                    <i class="fas fa-redo"></i> اختبار جديد
+                </button>
+                <button id="retryBtn" class="btn success-btn">
+                    <i class="fas fa-sync-alt"></i> إعادة نفس الاختبار
+                </button>
+            </div>
+            
+            <!-- قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط -->
+            <div id="reviewSection" class="review-section">
+                <h3><i class="fas fa-clipboard-check"></i> مراجعة الإجابات الخاطئة</h3>
+                <div id="wrongAnswersList" class="review-list">
+                    <!-- سيتم تعبئة الإجابات الخاطئة هنا -->
+                </div>
+                <div id="noWrongAnswers" style="text-align: center; padding: 3rem; color: var(--success-color); display: none;">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--success-color);">ممتاز! لم تكن لديك إجابات خاطئة</h3>
+                    <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">جميع إجاباتك كانت صحيحة</p>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="closeReviewBtn" class="btn secondary-btn">
+                        <i class="fas fa-times"></i> إغلاق المراجعة
                     </button>
                 </div>
             </div>
@@ -826,907 +1313,35 @@
     </main>
 
     <!-- تذييل الصفحة -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <p>جميع الحقوق محفوظة &copy; <span id="currentYear">2024</span> - جامعة صنعاء</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">تم التطوير بواسطة كلية الإعلام - قسم التصميم والتقنيات الإعلامية</p>
-            <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
-                <a href="#" style="color: white; text-decoration: none;"><i class="fas fa-question-circle"></i> المساعدة</a>
-                <a href="#" style="color: white; text-decoration: none;"><i class="fas fa-envelope"></i> اتصل بنا</a>
-                <a href="#" style="color: white; text-decoration: none;"><i class="fas fa-shield-alt"></i> الخصوصية</a>
-            </div>
-        </div>
+    <footer class="footer">
+        <p>© 2026 جامعة صنعاء - كلية الإعلام - الدفعة الخامسة والثلاثون</p>
+        <p>اللجنة العلمية - امتحان اللغة العربية - المستوى الأول</p>
+        <p>تم تطوير هذا الموقع لأغراض تعليمية وتدريبية</p>
     </footer>
 
-    <!-- نافذة التأكيد -->
-    <div id="confirmModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true" hidden>
+    <!-- نموذج تأكيد إنهاء الاختبار فقط -->
+    <div id="confirmModal" class="modal">
         <div class="modal-content">
-            <h3 id="modalTitle" style="color: var(--primary-color); margin-bottom: 1rem;">
-                <i class="fas fa-exclamation-circle"></i> تأكيد الإجراء
-            </h3>
-            <p id="modalMessage" style="color: var(--text-color); margin-bottom: 1.5rem;">
-                هل أنت متأكد من أنك تريد إنهاء الاختبار؟
+            <h3><i class="fas fa-exclamation-triangle"></i> تأكيد إنهاء الاختبار</h3>
+            <p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.6;">
+                هل أنت متأكد أنك تريد إنهاء الاختبار؟<br>
+                لديك <span id="remainingQuestions">0</span> أسئلة لم تتم الإجابة عليها.
             </p>
             <div class="modal-buttons">
                 <button id="cancelEndBtn" class="btn secondary-btn">
                     <i class="fas fa-times"></i> إلغاء
                 </button>
                 <button id="confirmEndBtn" class="btn danger-btn">
-                    <i class="fas fa-check"></i> نعم، إنهاء الاختبار
+                    <i class="fas fa-check"></i> نعم، أنه الاختبار
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة الأخطاء -->
-    <div id="errorModal" class="modal" role="alertdialog" aria-labelledby="errorTitle" aria-modal="true" hidden>
-        <div class="modal-content">
-            <h3 id="errorTitle" style="color: var(--accent-color);">
-                <i class="fas fa-exclamation-triangle"></i> حدث خطأ
-            </h3>
-            <p id="errorMessage" style="color: var(--text-color); margin: 1rem 0 1.5rem;"></p>
-            <div class="modal-buttons">
-                <button id="closeErrorBtn" class="btn primary-btn">
-                    <i class="fas fa-times"></i> إغلاق
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- مؤشر التحميل -->
-    <div id="loadingIndicator" class="modal" hidden>
-        <div class="modal-content">
-            <div style="text-align: center; padding: 2rem;">
-                <div class="spinner" style="width: 50px; height: 50px; border: 5px solid var(--light-color); border-top: 5px solid var(--secondary-color); border-radius: 50%; margin: 0 auto 1rem; animation: spin 1s linear infinite;"></div>
-                <p style="color: var(--text-color);">جاري التحميل...</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- منطقة البث المباشر للقارئ الشاشة -->
-    <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
     <script>
-        // ============================================
-        // 1. ثوابت ومتغيرات التطبيق
-        // ============================================
-
-        const TOTAL_QUESTIONS_IN_DB = 120;
-        const QUESTIONS_TO_SELECT = 30;
-        const EXAM_DURATION = 60 * 60; // 60 دقيقة بالثواني
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-        let startTime = null;
-        let timerInterval = null;
-        let timeLeft = EXAM_DURATION;
-        let examCompleted = false;
-        let currentQuestions = [];
-        let shuffledQuestions = [];
-        let optionCache = new Map();
-
-        // عناصر DOM
-        const screens = {
-            start: document.getElementById('startScreen'),
-            exam: document.getElementById('examScreen'),
-            results: document.getElementById('resultsScreen')
-        };
-
-        // ============================================
-        // 2. نظام معالجة الأخطاء
-        // ============================================
-
-        class ErrorHandler {
-            static showError(message, error = null) {
-                console.error(message, error);
-                
-                const errorModal = document.getElementById('errorModal');
-                const errorMessage = document.getElementById('errorMessage');
-                
-                errorMessage.textContent = message + (error ? `: ${error.message}` : '');
-                errorModal.hidden = false;
-                
-                const closeBtn = document.getElementById('closeErrorBtn');
-                closeBtn.onclick = () => errorModal.hidden = true;
-                
-                errorModal.onclick = (e) => {
-                    if (e.target === errorModal) errorModal.hidden = true;
-                };
-            }
-            
-            static wrapFunction(func, context) {
-                return function(...args) {
-                    try {
-                        return func.apply(this, args);
-                    } catch (error) {
-                        ErrorHandler.showError(`خطأ في ${context}`, error);
-                        return null;
-                    }
-                };
-            }
-        }
-
-        // ============================================
-        // 3. دوال التهيئة الأساسية
-        // ============================================
-
-        function initializeDarkMode() {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const savedTheme = localStorage.getItem('theme');
-            
-            // تطبيق الوضع المحفوظ أو التفضيلات
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.body.setAttribute('data-theme', 'dark');
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-            
-            // تبديل الوضع
-            darkModeToggle.addEventListener('click', () => {
-                if (document.body.getAttribute('data-theme') === 'dark') {
-                    document.body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                    darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                } else {
-                    document.body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                }
-                enhanceContrast();
-            });
-        }
-
-        function setupScrollTop() {
-            const scrollBtn = document.getElementById('scrollTopBtn');
-            
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    scrollBtn.style.display = 'block';
-                } else {
-                    scrollBtn.style.display = 'none';
-                }
-            });
-            
-            scrollBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        function initializeAccessibility() {
-            document.addEventListener('keydown', handleKeyboardNavigation);
-            enhanceARIALabels();
-            enhanceContrast();
-            setupLiveRegions();
-        }
-
-        function initializeEventListeners() {
-            // أزرار الشاشة الرئيسية
-            document.getElementById('startExamBtn').addEventListener('click', startExam);
-            document.getElementById('saveExitBtn').addEventListener('click', saveAndExit);
-            document.getElementById('endExamBtn').addEventListener('click', () => {
-                showConfirmModal('هل أنت متأكد من أنك تريد إنهاء الاختبار؟', handleEndExam);
-            });
-            document.getElementById('newExamBtn').addEventListener('click', startNewExam);
-            document.getElementById('reviewExamBtn').addEventListener('click', reviewExam);
-            
-            // أزرار التنقل بين الأسئلة
-            document.getElementById('prevBtn').addEventListener('click', goToPreviousQuestion);
-            document.getElementById('nextBtn').addEventListener('click', goToNextQuestion);
-            
-            // أزرار النوافذ المنبثقة
-            document.getElementById('confirmEndBtn').addEventListener('click', () => {
-                document.getElementById('confirmModal').hidden = true;
-                handleEndExam();
-            });
-            document.getElementById('cancelEndBtn').addEventListener('click', () => {
-                document.getElementById('confirmModal').hidden = true;
-            });
-            
-            // تحديث سنة التذييل
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-        }
-
-        // ============================================
-        // 4. دوال إمكانية الوصول
-        // ============================================
-
-        function handleKeyboardNavigation(event) {
-            if (!screens.exam.classList.contains('active')) return;
-            
-            switch(event.key) {
-                case 'ArrowRight':
-                    event.preventDefault();
-                    document.getElementById('prevBtn').click();
-                    break;
-                case 'ArrowLeft':
-                    event.preventDefault();
-                    document.getElementById('nextBtn').click();
-                    break;
-                case ' ':
-                case 'Enter':
-                    const focused = document.activeElement;
-                    if (focused.classList.contains('option')) {
-                        event.preventDefault();
-                        focused.click();
-                    }
-                    break;
-                case 'Escape':
-                    if (!document.getElementById('confirmModal').hidden) {
-                        document.getElementById('cancelEndBtn').click();
-                    }
-                    break;
-            }
-        }
-
-        function enhanceARIALabels() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            if (prevBtn) prevBtn.setAttribute('aria-label', 'السؤال السابق');
-            if (nextBtn) nextBtn.setAttribute('aria-label', 'السؤال التالي');
-            
-            document.querySelectorAll('.option').forEach((option, index) => {
-                option.setAttribute('role', 'radio');
-                option.setAttribute('aria-checked', 'false');
-                option.setAttribute('tabindex', '0');
-                option.setAttribute('aria-label', `الخيار ${index + 1}`);
-            });
-            
-            document.querySelectorAll('.question-nav-btn').forEach(btn => {
-                btn.setAttribute('aria-label', `الانتقال إلى السؤال ${btn.textContent}`);
-            });
-        }
-
-        function updateARIALabels() {
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                const isSelected = option.classList.contains('selected');
-                option.setAttribute('aria-checked', isSelected.toString());
-                const optionText = option.querySelector('.option-text')?.textContent || `الخيار ${index + 1}`;
-                option.setAttribute('aria-label', `${optionText} - ${isSelected ? 'محدد' : 'غير محدد'}`);
-            });
-        }
-
-        function enhanceContrast() {
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
-            
-            if (isDark) {
-                document.documentElement.style.setProperty('--primary-color', '#63b3ed');
-                document.documentElement.style.setProperty('--secondary-color', '#90cdf4');
-                document.documentElement.style.setProperty('--text-color', '#f7fafc');
-            }
-        }
-
-        function setupLiveRegions() {
-            window.announceToScreenReader = function(message) {
-                const liveRegion = document.getElementById('live-region');
-                if (liveRegion) {
-                    liveRegion.textContent = message;
-                    setTimeout(() => {
-                        liveRegion.textContent = '';
-                    }, 1000);
-                }
-            };
-        }
-
-        // ============================================
-        // 5. دوال إدارة الأسئلة
-        // ============================================
-
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
-        }
-
-        function selectRandomQuestions() {
-            try {
-                let availableQuestions = [...quizQuestions];
-                availableQuestions = shuffleArray(availableQuestions);
-                currentQuestions = availableQuestions.slice(0, QUESTIONS_TO_SELECT);
-                userAnswers = new Array(currentQuestions.length).fill(null);
-                optionCache.clear();
-                return true;
-            } catch (error) {
-                ErrorHandler.showError('حدث خطأ في تحميل الأسئلة', error);
-                return false;
-            }
-        }
-
-        function shuffleAllOptions() {
-            shuffledQuestions = currentQuestions.map((question, index) => {
-                if (question.type === 'multiple') {
-                    const optionsCopy = [...question.options];
-                    const correctAnswer = question.answer;
-                    
-                    // خلط الخيارات
-                    for (let i = optionsCopy.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
-                    }
-                    
-                    return {
-                        ...question,
-                        shuffledOptions: optionsCopy,
-                        shuffledCorrect: optionsCopy.indexOf(correctAnswer),
-                        originalIndex: index
-                    };
-                } else {
-                    return {
-                        ...question,
-                        shuffledOptions: ['صح', 'خطأ'],
-                        shuffledCorrect: question.answer === 'صح' ? 0 : 1,
-                        originalIndex: index
-                    };
-                }
-            });
-        }
-
-        const loadQuestion = ErrorHandler.wrapFunction(function(index) {
-            const question = shuffledQuestions[index];
-            
-            if (!question) {
-                throw new Error(`السؤال رقم ${index + 1} غير موجود`);
-            }
-            
-            // تحديث واجهة السؤال
-            document.getElementById('questionNumber').textContent = `س${index + 1}`;
-            document.getElementById('questionText').textContent = question.question;
-            
-            // تحديث شريط التقدم
-            const progress = ((index + 1) / shuffledQuestions.length) * 100;
-            document.getElementById('progressFill').style.width = `${progress}%`;
-            document.getElementById('progressText').textContent = 
-                `السؤال ${index + 1} من ${shuffledQuestions.length}`;
-            document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
-            
-            // تحديث أزرار التنقل
-            document.getElementById('prevBtn').disabled = index === 0;
-            document.getElementById('nextBtn').textContent = 
-                index === shuffledQuestions.length - 1 ? 'إنهاء الاختبار' : 'التالي';
-            
-            // إنشاء الخيارات
-            createOptions(question, index);
-            
-            // تحديث الحالة
-            updateQuestionStatus(index);
-            updateQuestionsGrid();
-            updateARIALabels();
-            
-            // الحفظ التلقائي
-            autoSaveProgress();
-            
-            // إعلان للقارئ الشاشة
-            announceToScreenReader(`السؤال رقم ${index + 1} من ${shuffledQuestions.length}`);
-            
-        }, 'تحميل السؤال');
-
-        function createOptions(question, questionIndex) {
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            
-            question.shuffledOptions.forEach((option, optionIndex) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.setAttribute('role', 'radio');
-                optionElement.setAttribute('tabindex', '0');
-                optionElement.setAttribute('aria-checked', 'false');
-                
-                const marker = document.createElement('div');
-                marker.className = 'option-marker';
-                marker.textContent = String.fromCharCode(1632 + optionIndex + 1);
-                
-                const text = document.createElement('div');
-                text.className = 'option-text';
-                text.textContent = option;
-                
-                optionElement.appendChild(marker);
-                optionElement.appendChild(text);
-                
-                // تحديد إذا كان هذا الخيار مختاراً
-                if (userAnswers[questionIndex] === optionIndex) {
-                    optionElement.classList.add('selected');
-                    optionElement.setAttribute('aria-checked', 'true');
-                }
-                
-                // أحداث النقر
-                optionElement.addEventListener('click', () => selectOption(optionIndex));
-                optionElement.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        selectOption(optionIndex);
-                    }
-                });
-                
-                optionsContainer.appendChild(optionElement);
-            });
-        }
-
-        function selectOption(optionIndex) {
-            userAnswers[currentQuestionIndex] = optionIndex;
-            
-            // تحديث واجهة الخيارات
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, idx) => {
-                if (idx === optionIndex) {
-                    option.classList.add('selected');
-                    option.setAttribute('aria-checked', 'true');
-                } else {
-                    option.classList.remove('selected');
-                    option.setAttribute('aria-checked', 'false');
-                }
-            });
-            
-            // تحديث الحالة
-            updateQuestionStatus(currentQuestionIndex);
-            updateQuestionsGrid();
-            updateUnansweredAlert();
-            autoSaveProgress();
-            
-            // إعلان للقارئ الشاشة
-            announceToScreenReader('تم اختيار إجابة');
-        }
-
-        function updateQuestionStatus(index) {
-            const statusElement = document.getElementById('questionStatus');
-            const questionNavBtn = document.querySelector(`.question-nav-btn[data-index="${index}"]`);
-            
-            if (userAnswers[index] !== null) {
-                statusElement.innerHTML = '<i class="fas fa-check-circle"></i> تمت الإجابة';
-                statusElement.style.color = 'var(--success-color)';
-                if (questionNavBtn) {
-                    questionNavBtn.classList.add('answered');
-                }
-            } else {
-                statusElement.innerHTML = '<i class="fas fa-circle"></i> جديد';
-                statusElement.style.color = 'var(--secondary-color)';
-                if (questionNavBtn) {
-                    questionNavBtn.classList.remove('answered');
-                }
-            }
-        }
-
-        function updateQuestionsGrid() {
-            const grid = document.getElementById('questionsGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            shuffledQuestions.forEach((_, index) => {
-                const button = document.createElement('button');
-                button.className = 'question-nav-btn';
-                button.textContent = index + 1;
-                button.setAttribute('data-index', index);
-                button.setAttribute('aria-label', `الانتقال إلى السؤال ${index + 1}`);
-                
-                if (index === currentQuestionIndex) {
-                    button.classList.add('current');
-                }
-                
-                if (userAnswers[index] !== null) {
-                    button.classList.add('answered');
-                }
-                
-                button.addEventListener('click', () => {
-                    currentQuestionIndex = index;
-                    loadQuestion(index);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-                
-                grid.appendChild(button);
-            });
-        }
-
-        function updateUnansweredAlert() {
-            const unansweredCount = userAnswers.filter(answer => answer === null).length;
-            const alertElement = document.getElementById('unansweredAlert');
-            const countElement = document.getElementById('unansweredCount');
-            const unansweredStat = document.getElementById('unansweredStat');
-            
-            if (countElement) countElement.textContent = unansweredCount;
-            if (unansweredStat) unansweredStat.textContent = unansweredCount;
-            
-            if (unansweredCount > 0) {
-                alertElement.style.display = 'flex';
-            } else {
-                alertElement.style.display = 'none';
-            }
-        }
-
-        // ============================================
-        // 6. دوال إدارة الوقت والموقت
-        // ============================================
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            
-            const timerElement = document.getElementById('timer');
-            const timeDisplay = document.getElementById('timeDisplay');
-            
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // تغيير اللون عند اقتراب النهاية
-                if (timeLeft <= 300) { // 5 دقائق
-                    timerElement.classList.add('low');
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeUp();
-                }
-            }, 1000);
-        }
-
-        function handleTimeUp() {
-            examCompleted = true;
-            clearInterval(timerInterval);
-            
-            showConfirmModal('انتهى وقت الامتحان!', () => {
-                calculateResults();
-                showResultsScreen();
-            });
-        }
-
-        // ============================================
-        // 7. دوال التنقل بين الأسئلة
-        // ============================================
-
-        function goToPreviousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        function goToNextQuestion() {
-            if (currentQuestionIndex < shuffledQuestions.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                showConfirmModal('هل أنت متأكد من أنك تريد إنهاء الاختبار؟', handleEndExam);
-            }
-        }
-
-        // ============================================
-        // 8. دوال حفظ واستعادة التقدم
-        // ============================================
-
-        function autoSaveProgress() {
-            try {
-                const progress = {
-                    currentQuestionIndex,
-                    userAnswers,
-                    timeLeft,
-                    currentQuestions: currentQuestions.map(q => q.id),
-                    startTime: startTime ? startTime.getTime() : null,
-                    examStarted: true
-                };
-                localStorage.setItem('examAutoSave', JSON.stringify(progress));
-            } catch (error) {
-                console.warn('فشل الحفظ التلقائي:', error);
-            }
-        }
-
-        function tryRestoreProgress() {
-            try {
-                const saved = localStorage.getItem('examAutoSave');
-                if (saved) {
-                    const progress = JSON.parse(saved);
-                    
-                    if (progress.userAnswers && 
-                        progress.currentQuestions && 
-                        progress.timeLeft > 0 &&
-                        progress.examStarted) {
-                        return progress;
-                    }
-                }
-            } catch (error) {
-                console.warn('فشل استعادة التقدم:', error);
-            }
-            return null;
-        }
-
-        function clearAutoSave() {
-            localStorage.removeItem('examAutoSave');
-        }
-
-        function restoreProgress(progress) {
-            try {
-                currentQuestionIndex = progress.currentQuestionIndex;
-                userAnswers = progress.userAnswers;
-                timeLeft = progress.timeLeft;
-                startTime = progress.startTime ? new Date(progress.startTime) : null;
-                
-                // استعادة الأسئلة بناء على الـ IDs
-                currentQuestions = progress.currentQuestions.map(id => 
-                    quizQuestions.find(q => q.id === id)
-                ).filter(q => q !== undefined);
-                
-                if (currentQuestions.length === 0) {
-                    throw new Error('لم يتم العثور على الأسئلة المحفوظة');
-                }
-                
-                shuffleAllOptions();
-                loadQuestion(currentQuestionIndex);
-                startTimer();
-                updateQuestionsGrid();
-                updateUnansweredAlert();
-                
-                // الانتقال إلى شاشة الامتحان
-                screens.start.classList.remove('active');
-                screens.exam.classList.add('active');
-                screens.start.setAttribute('hidden', 'true');
-                screens.exam.removeAttribute('hidden');
-                
-                announceToScreenReader('تم استعادة الامتحان السابق');
-                
-            } catch (error) {
-                ErrorHandler.showError('فشل استعادة التقدم', error);
-                startExam();
-            }
-        }
-
-        function saveAndExit() {
-            autoSaveProgress();
-            returnToStartScreen();
-            announceToScreenReader('تم حفظ التقدم والخروج');
-        }
-
-        // ============================================
-        // 9. دوال إدارة الشاشات
-        // ============================================
-
-        const startExam = ErrorHandler.wrapFunction(function() {
-            showLoading('جاري تحضير الامتحان...');
-            
-            setTimeout(() => {
-                try {
-                    screens.start.classList.remove('active');
-                    screens.exam.classList.add('active');
-                    
-                    screens.start.setAttribute('hidden', 'true');
-                    screens.exam.removeAttribute('hidden');
-                    
-                    startTime = new Date();
-                    timeLeft = EXAM_DURATION;
-                    examCompleted = false;
-                    currentQuestionIndex = 0;
-                    
-                    if (!selectRandomQuestions()) {
-                        throw new Error('فشل في تحميل الأسئلة');
-                    }
-                    
-                    shuffleAllOptions();
-                    startTimer();
-                    loadQuestion(currentQuestionIndex);
-                    updateQuestionsGrid();
-                    updateUnansweredAlert();
-                    
-                    announceToScreenReader('بدأ الامتحان، لديك 60 دقيقة للإجابة على 30 سؤالاً');
-                    
-                } catch (error) {
-                    ErrorHandler.showError('حدث خطأ أثناء بدء الامتحان', error);
-                    returnToStartScreen();
-                } finally {
-                    hideLoading();
-                }
-            }, 500);
-        }, 'بدء الامتحان');
-
-        function handleEndExam() {
-            examCompleted = true;
-            clearInterval(timerInterval);
-            calculateResults();
-            showResultsScreen();
-            clearAutoSave();
-        }
-
-        function calculateResults() {
-            let correctCount = 0;
-            let wrongCount = 0;
-            let unansweredCount = 0;
-            
-            shuffledQuestions.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                
-                if (userAnswer === null) {
-                    unansweredCount++;
-                } else if (userAnswer === question.shuffledCorrect) {
-                    correctCount++;
-                } else {
-                    wrongCount++;
-                }
-            });
-            
-            const totalQuestions = shuffledQuestions.length;
-            const scorePercentage = totalQuestions > 0 ? 
-                (correctCount / totalQuestions) * 100 : 0;
-            
-            updateResultsUI(correctCount, wrongCount, unansweredCount, scorePercentage);
-            updateScoreCircle(scorePercentage);
-        }
-
-        function updateResultsUI(correct, wrong, unanswered, percentage) {
-            document.getElementById('finalScore').textContent = `${correct}/${shuffledQuestions.length}`;
-            document.getElementById('percentage').textContent = `${percentage.toFixed(1)}%`;
-            document.getElementById('correctAnswers').textContent = correct;
-            document.getElementById('wrongAnswers').textContent = wrong;
-            
-            let gradeText = '';
-            let gradeColor = '';
-            
-            if (percentage >= 90) {
-                gradeText = 'امتياز';
-                gradeColor = 'var(--success-color)';
-            } else if (percentage >= 80) {
-                gradeText = 'جيد جداً';
-                gradeColor = '#2ecc71';
-            } else if (percentage >= 70) {
-                gradeText = 'جيد';
-                gradeColor = 'var(--secondary-color)';
-            } else if (percentage >= 60) {
-                gradeText = 'مقبول';
-                gradeColor = 'var(--warning-color)';
-            } else {
-                gradeText = 'راسب';
-                gradeColor = 'var(--accent-color)';
-            }
-            
-            document.getElementById('grade').textContent = gradeText;
-            document.getElementById('grade').style.color = gradeColor;
-            
-            const endTime = new Date();
-            const timeDiff = startTime ? Math.floor((endTime - startTime) / 1000) : 0;
-            const minutes = Math.floor(timeDiff / 60);
-            const seconds = timeDiff % 60;
-            document.getElementById('timeTaken').textContent = 
-                `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
-            document.getElementById('completionDate').textContent = 
-                new Date().toLocaleDateString('ar-SA');
-        }
-
-        function updateScoreCircle(percentage) {
-            const scoreCircle = document.getElementById('scoreCircle');
-            if (!scoreCircle) return;
-            
-            const circleLength = 565;
-            const offset = circleLength - (circleLength * (percentage / 100));
-            
-            setTimeout(() => {
-                scoreCircle.style.strokeDashoffset = offset;
-                
-                if (percentage >= 90) {
-                    scoreCircle.style.stroke = '#9b59b6';
-                } else if (percentage >= 80) {
-                    scoreCircle.style.stroke = 'var(--success-color)';
-                } else if (percentage >= 70) {
-                    scoreCircle.style.stroke = '#2ecc71';
-                } else if (percentage >= 60) {
-                    scoreCircle.style.stroke = 'var(--warning-color)';
-                } else {
-                    scoreCircle.style.stroke = 'var(--accent-color)';
-                }
-            }, 100);
-        }
-
-        function showResultsScreen() {
-            screens.exam.classList.remove('active');
-            screens.results.classList.add('active');
-            screens.exam.setAttribute('hidden', 'true');
-            screens.results.removeAttribute('hidden');
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            announceToScreenReader('تم عرض النتائج');
-        }
-
-        function startNewExam() {
-            clearAutoSave();
-            returnToStartScreen();
-        }
-
-        function reviewExam() {
-            screens.results.classList.remove('active');
-            screens.exam.classList.add('active');
-            screens.results.setAttribute('hidden', 'true');
-            screens.exam.removeAttribute('hidden');
-            
-            examCompleted = true;
-            clearInterval(timerInterval);
-            document.getElementById('timer').style.display = 'none';
-            document.getElementById('endExamBtn').style.display = 'none';
-            document.getElementById('saveExitBtn').style.display = 'none';
-            
-            loadQuestion(currentQuestionIndex);
-            announceToScreenReader('وضع مراجعة الإجابات');
-        }
-
-        function returnToStartScreen() {
-            screens.exam.classList.remove('active');
-            screens.results.classList.remove('active');
-            screens.start.classList.add('active');
-            
-            screens.exam.setAttribute('hidden', 'true');
-            screens.results.setAttribute('hidden', 'true');
-            screens.start.removeAttribute('hidden');
-            
-            clearInterval(timerInterval);
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============================================
-        // 10. دوال المساعدة
-        // ============================================
-
-        function showLoading(message = 'جاري التحميل...') {
-            const indicator = document.getElementById('loadingIndicator');
-            const messageEl = indicator.querySelector('p');
-            messageEl.textContent = message;
-            indicator.hidden = false;
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingIndicator').hidden = true;
-        }
-
-        function showConfirmModal(message, confirmCallback) {
-            const modal = document.getElementById('confirmModal');
-            const messageEl = document.getElementById('modalMessage');
-            
-            messageEl.textContent = message;
-            modal.hidden = false;
-            
-            const confirmBtn = document.getElementById('confirmEndBtn');
-            const oldHandler = confirmBtn.onclick;
-            
-            confirmBtn.onclick = () => {
-                modal.hidden = true;
-                confirmCallback();
-                confirmBtn.onclick = oldHandler;
-            };
-        }
-
-        // ============================================
-        // 11. تهيئة التطبيق
-        // ============================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                initializeDarkMode();
-                initializeAccessibility();
-                initializeEventListeners();
-                setupScrollTop();
-                
-                const progress = tryRestoreProgress();
-                if (progress) {
-                    if (confirm('هل تريد استعادة الامتحان السابق؟')) {
-                        restoreProgress(progress);
-                    } else {
-                        clearAutoSave();
-                    }
-                }
-                
-                console.log('تم تحميل التطبيق بنجاح');
-            } catch (error) {
-                ErrorHandler.showError('حدث خطأ أثناء تحميل التطبيق', error);
-            }
-        });
-
-        // ============================================
-        // 12. قاعدة بيانات الأسئلة (مختصرة للاختبار)
-        // ============================================
-
+        // قاعدة بيانات الأسئلة للغة العربية
         const quizQuestions = [
             // الأخطاء النحوية (1-10)
             {
@@ -1748,8 +1363,6 @@
                 answer: 'خطأ',
                 explanation: 'الصواب: "حاز الجائزة" لأن الفعل "حاز" لا يتعدى بحرف الجر'
             },
-            // ... (يمكن إضافة باقي الأسئلة هنا)
-            // لأغراض الاختبار، نستخدم 5 أسئلة فقط
             {
                 id: 3,
                 type: 'multiple',
@@ -1777,8 +1390,1642 @@
                     'الفاعل'
                 ],
                 answer: 'الشيء المتروك (القديم)'
+            },
+            {
+                id: 6,
+                type: 'truefalse',
+                question: 'يُعد قول "أجرى الباحث دراساتٍ معمقةٍ" صحيحاً بتنوين الكسر في "معمقة".',
+                answer: 'خطأ',
+                explanation: 'الصواب: "معمقةً" (تنوين النصب لأنها حال)'
+            },
+            {
+                id: 7,
+                type: 'multiple',
+                question: 'يُقال في الأخبار "كشفت مصادر عن اعتزام..." والصواب:',
+                options: [
+                    'كشفت مصادر اعتزام',
+                    'كشفت مصادر باعتزام',
+                    'كشفت مصادر في اعتزام'
+                ],
+                answer: 'كشفت مصادر باعتزام'
+            },
+            {
+                id: 8,
+                type: 'truefalse',
+                question: 'تعبير "بالرغم من" يُفضل استبداله بكلمة "رغم" أو "على الرغم".',
+                answer: 'صح'
+            },
+            {
+                id: 9,
+                type: 'multiple',
+                question: 'عند نداء الأسماء، يُقال:',
+                options: [
+                    'يسمى ماجدٌ',
+                    'يسمى ماجداً',
+                    'يسمى ماجدٍ'
+                ],
+                answer: 'يسمى ماجداً'
+            },
+            {
+                id: 10,
+                type: 'truefalse',
+                question: 'كلمة "غير" لا تقبل "ال" التعريف لأنها اسم ملازم للإضافة.',
+                answer: 'صح'
+            },
+
+            // الإعراب والبناء (11-20)
+            {
+                id: 11,
+                type: 'multiple',
+                question: 'العلم الذي يبحث في أصول تركيب الجملة وتفاعل الكلمات داخلها هو:',
+                options: [
+                    'الصرف',
+                    'النحو',
+                    'الدلالة'
+                ],
+                answer: 'النحو'
+            },
+            {
+                id: 12,
+                type: 'truefalse',
+                question: 'جميع الحروف في اللغة العربية مبنية دائماً.',
+                answer: 'صح'
+            },
+            {
+                id: 13,
+                type: 'multiple',
+                question: '"البناء" هو لزوم اللفظ حالة واحدة لا تتغير مهما اختلف موقعه في:',
+                options: [
+                    'المعجم',
+                    'الجملة',
+                    'البيت الشعري'
+                ],
+                answer: 'الجملة'
+            },
+            {
+                id: 14,
+                type: 'truefalse',
+                question: 'الفعل الماضي مبني دائماً.',
+                answer: 'صح'
+            },
+            {
+                id: 15,
+                type: 'multiple',
+                question: 'تُقدر الحركات الإعرابية للثقل في الفعل المنتهي بـ:',
+                options: [
+                    'الألف',
+                    'الياء أو الواو',
+                    'الهمزة'
+                ],
+                answer: 'الياء أو الواو'
+            },
+            {
+                id: 16,
+                type: 'truefalse',
+                question: 'الإعراب المحلي خاص بالجمل وشبه الجمل.',
+                answer: 'صح'
+            },
+            {
+                id: 17,
+                type: 'multiple',
+                question: 'علامة الرفع الفرعية في الأسماء الخمسة هي:',
+                options: [
+                    'الألف',
+                    'الواو',
+                    'ثبوت النون'
+                ],
+                answer: 'الواو'
+            },
+            {
+                id: 18,
+                type: 'truefalse',
+                question: 'الجر خاص بالأسماء والجزم خاص بالأفعال.',
+                answer: 'صح'
+            },
+            {
+                id: 19,
+                type: 'multiple',
+                question: 'يُبنى الفعل المضارع إذا اتصلت به:',
+                options: [
+                    'نون النسوة أو نون التوكيد',
+                    'تاء الفاعل',
+                    'ألف الاثنين'
+                ],
+                answer: 'نون النسوة أو نون التوكيد'
+            },
+            {
+                id: 20,
+                type: 'truefalse',
+                question: 'النحو الحديث يعتبر الجملة التي فيها فعل "جملة فعلية" بغض النظر عن موقعه.',
+                answer: 'صح'
+            },
+
+            // الممنوع من الصرف (21-30)
+            {
+                id: 21,
+                type: 'multiple',
+                question: 'الممنوع من الصرف هو الاسم الذي:',
+                options: [
+                    'لا يُنون ويُجر بالكسرة',
+                    'لا يُنون ويُجر بالفتحة',
+                    'يُنون ويُجر بالفتحة'
+                ],
+                answer: 'لا يُنون ويُجر بالفتحة'
+            },
+            {
+                id: 22,
+                type: 'truefalse',
+                question: 'يُمنع العلم من الصرف إذا كان "مفرداً" (غير مضاف ولا معرف بـ ال).',
+                answer: 'صح'
+            },
+            {
+                id: 23,
+                type: 'multiple',
+                question: 'يُجر الممنوع من الصرف بالكسرة إذا:',
+                options: [
+                    'كان نكرة',
+                    'عُرف بـ "ال" أو أُضيف',
+                    'كان علماً أعجمياً'
+                ],
+                answer: 'عُرف بـ "ال" أو أُضيف'
+            },
+            {
+                id: 24,
+                type: 'truefalse',
+                question: 'كلمة "بغداد" تمنع من الصرف لأنها علم أعجمي أو مؤنث زائد عن 3 أحرف.',
+                answer: 'صح'
+            },
+            {
+                id: 25,
+                type: 'multiple',
+                question: 'الأسماء (عثمان، مهدان، سكران) منعت من الصرف لوجود:',
+                options: [
+                    'الهمزة',
+                    'الألف والنون الزائدتين',
+                    'التضعيف'
+                ],
+                answer: 'الألف والنون الزائدتين'
+            },
+            {
+                id: 26,
+                type: 'truefalse',
+                question: 'يُمنع العلم "أحمد" من الصرف لأنه على وزن الفعل.',
+                answer: 'صح'
+            },
+            {
+                id: 27,
+                type: 'multiple',
+                question: 'صيغ منتهى الجموع هي كل جمع تكسير بعد ألف تكسيره:',
+                options: [
+                    'حرف واحد',
+                    'حرفان أو ثلاثة',
+                    'أربعة أحرف'
+                ],
+                answer: 'حرفان أو ثلاثة'
+            },
+            {
+                id: 28,
+                type: 'truefalse',
+                question: 'الاسم المقصور (مثل ليلى) لا يتأثر بنظرية المفرد لأن حركته مقدرة للتعذر.',
+                answer: 'صح'
+            },
+            {
+                id: 29,
+                type: 'multiple',
+                question: 'تمنع الصفة على وزن "أفعل" من الصرف مثل:',
+                options: [
+                    'كريم',
+                    'أحسن',
+                    'عظيم'
+                ],
+                answer: 'أحسن'
+            },
+            {
+                id: 30,
+                type: 'truefalse',
+                question: 'كلمة "عُمر" تمنع من الصرف لأنها علم معدول عن "عامر" حسب النحاة.',
+                answer: 'صح'
+            },
+
+            // إن وأخواتها (31-40)
+            {
+                id: 31,
+                type: 'multiple',
+                question: '"ليت" حرف مركب من:',
+                options: [
+                    'لـ + أيت',
+                    'لا + أيت',
+                    'لن + أيت'
+                ],
+                answer: 'لـ + أيت'
+            },
+            {
+                id: 32,
+                type: 'truefalse',
+                question: 'إن وأخواتها تدخل على الجملة الاسمية فترفع المبتدأ وتنصب الخبر.',
+                answer: 'خطأ',
+                explanation: 'تنصب المبتدأ وترفع الخبر'
+            },
+            {
+                id: 33,
+                type: 'multiple',
+                question: '"لعل" حرف ناسخ أصله اللغوي:',
+                options: [
+                    'لـ + عل',
+                    'لن + عل',
+                    'لا + عل'
+                ],
+                answer: 'لـ + عل'
+            },
+            {
+                id: 34,
+                type: 'truefalse',
+                question: 'يجوز تقديم خبر "إن" على اسمها إذا كان شبه جملة.',
+                answer: 'صح'
+            },
+            {
+                id: 35,
+                type: 'multiple',
+                question: 'نون الوقاية تدخل على "ليت" فيُقال غالباً:',
+                options: [
+                    'ليتي',
+                    'ليتني',
+                    'ليتنني'
+                ],
+                answer: 'ليتني'
+            },
+            {
+                id: 36,
+                type: 'truefalse',
+                question: '"كأن" مركبة من كاف التشبيه و"أنّ".',
+                answer: 'صح'
+            },
+            {
+                id: 37,
+                type: 'multiple',
+                question: 'خبر إن في قوله {إن مع العسر يسراً} هو:',
+                options: [
+                    'يسراً',
+                    'مع العسر (شبه جملة)',
+                    'ضمير مستتر'
+                ],
+                answer: 'مع العسر (شبه جملة)'
+            },
+            {
+                id: 38,
+                type: 'truefalse',
+                question: '"لكنّ" مركبة من "لا" و"كأن".',
+                answer: 'خطأ',
+                explanation: 'مركبة من أداة تنبيه + إن'
+            },
+            {
+                id: 39,
+                type: 'multiple',
+                question: 'تعمل إن وأخواتها في الجملة:',
+                options: [
+                    'الفعلية',
+                    'الاسمية',
+                    'شبه الجملة'
+                ],
+                answer: 'الاسمية'
+            },
+            {
+                id: 40,
+                type: 'truefalse',
+                question: 'يجوز في اللغة "إني" و"إنني" حسب اختلاف اللهجات.',
+                answer: 'صح'
+            },
+
+            // نظام التعدية في النحو العربي (41-50)
+            {
+                id: 41,
+                type: 'multiple',
+                question: 'الفعل الذي يكتفي بفاعله ولا يحتاج لمفعول به يسمى:',
+                options: [
+                    'متعدياً',
+                    'لازماً',
+                    'ناقصاً'
+                ],
+                answer: 'لازماً'
+            },
+            {
+                id: 42,
+                type: 'truefalse',
+                question: 'يمكن تعدية الفعل اللازم بزيادة همزة في أوله (مثل: أكرم).',
+                answer: 'صح'
+            },
+            {
+                id: 43,
+                type: 'multiple',
+                question: 'الفعل "أعلم" يتعدى لـ:',
+                options: [
+                    'مفعول واحد',
+                    'مفعولين',
+                    'ثلاثة مفاعيل'
+                ],
+                answer: 'ثلاثة مفاعيل'
+            },
+            {
+                id: 44,
+                type: 'truefalse',
+                question: 'حروف التعدية في اللغة السبئية القديمة هي "الهاء" مثل (هريقوا).',
+                answer: 'صح'
+            },
+            {
+                id: 45,
+                type: 'multiple',
+                question: 'الفعل "رأى" ينصب مفعولين إذا كانت الرؤية:',
+                options: [
+                    'بصرية حسية',
+                    'قلبية ذهنية',
+                    'منامية'
+                ],
+                answer: 'قلبية ذهنية'
+            },
+            {
+                id: 46,
+                type: 'truefalse',
+                question: 'الشين هي حرف التعدية في اللغة الحضرمية والأكدية.',
+                answer: 'صح'
+            },
+            {
+                id: 47,
+                type: 'multiple',
+                question: 'أفعال التحويل (مثل: جعل، صيّر) تنصب:',
+                options: [
+                    'مفعولاً واحداً',
+                    'مفعولين أصلهما مبتدأ وخبر',
+                    'لا تنصب مفاعيل'
+                ],
+                answer: 'مفعولين أصلهما مبتدأ وخبر'
+            },
+            {
+                id: 48,
+                type: 'truefalse',
+                question: 'الفعل "حاز" يتعدى بنفسه ولا يحتاج لحرف الجر "على".',
+                answer: 'صح'
+            },
+            {
+                id: 49,
+                type: 'multiple',
+                question: 'وسيلة التعدية في "درّس" هي:',
+                options: [
+                    'الهمزة',
+                    'التضعيف (تشديد العين)',
+                    'زيادة الألف'
+                ],
+                answer: 'التضعيف (تشثير العين)'
+            },
+            {
+                id: 50,
+                type: 'truefalse',
+                question: 'الفعل "وجد" ينصب مفعولين إذا كان بمعنى "عثر على شيء مادي".',
+                answer: 'خطأ',
+                explanation: 'في هذه الحالة يعرب الثاني حالاً وليس مفعولاً ثانياً'
+            },
+
+            // الأخطاء الدلالية (51-60)
+            {
+                id: 51,
+                type: 'multiple',
+                question: 'كلمة "توأم" في اللغة تعني:',
+                options: [
+                    'فرداً واحداً',
+                    'اثنين',
+                    'ثلاثة'
+                ],
+                answer: 'اثنين'
+            },
+            {
+                id: 52,
+                type: 'truefalse',
+                question: 'قول "امرأة تنجب توأمين" يعني أنها أنجبت أربعة أطفال.',
+                answer: 'صح'
+            },
+            {
+                id: 53,
+                type: 'multiple',
+                question: '"معنى المعنى" للفعل "ضرب" في (ضرب في الأرض) هو:',
+                options: [
+                    'أوجع',
+                    'سافر',
+                    'خفق'
+                ],
+                answer: 'سافر'
+            },
+            {
+                id: 54,
+                type: 'truefalse',
+                question: 'يُعد تعبير "الأحبال الصوتية" صحيحاً دلالياً.',
+                answer: 'خطأ',
+                explanation: 'الصواب: "الوتران الصوتيان"'
+            },
+            {
+                id: 55,
+                type: 'multiple',
+                question: 'المثلثات اللغوية (مثل قَسط، قِسط، قُسط) يتغير معناها بتغير:',
+                options: [
+                    'عدد حروفها',
+                    'حركتها الإعرابية',
+                    'ترتيب حروفها'
+                ],
+                answer: 'حركتها الإعرابية'
+            },
+            {
+                id: 56,
+                type: 'truefalse',
+                question: 'الحشو هو زيادة في المبنى لا يقابلها زيادة في المعنى.',
+                answer: 'صح'
+            },
+            {
+                id: 57,
+                type: 'multiple',
+                question: 'تعبير "التهاني القلبية" يُعد من قبيل:',
+                options: [
+                    'الإيجاز',
+                    'الحشو',
+                    'التفاصح'
+                ],
+                answer: 'الحشو'
+            },
+            {
+                id: 58,
+                type: 'truefalse',
+                question: 'قولنا "تعادل الفريقان بهدفين لكل منهما" يحتوي على حشو.',
+                answer: 'صح'
+            },
+            {
+                id: 59,
+                type: 'multiple',
+                question: 'الصواب في ترجمة "I am as a writer" هو:',
+                options: [
+                    'أنا ككاتب',
+                    'أنا بصفتي كاتباً',
+                    'أنا مثل كاتب'
+                ],
+                answer: 'أنا بصفتي كاتباً'
+            },
+            {
+                id: 60,
+                type: 'truefalse',
+                question: 'كلمة "قَسط" بفتح القاف تعني العدل.',
+                answer: 'خطأ',
+                explanation: 'تعني الظلم (قِسط بكسر القاف تعني العدل)'
+            },
+
+            // التفاصح (61-70)
+            {
+                id: 61,
+                type: 'multiple',
+                question: 'التفاصح هو ظاهرة لغوية ناتجة عن:',
+                options: [
+                    'الجهل باللغة',
+                    'توهم المتكلم أن لغته غير فصيحة فيحاول "تفصيحها" خطأً',
+                    'الرغبة في التحدث بالعامية'
+                ],
+                answer: 'توهم المتكلم أن لغته غير فصيحة فيحاول "تفصيحها" خطأً'
+            },
+            {
+                id: 62,
+                type: 'truefalse',
+                question: 'نطق "السين" ثاءً (مثل: يتثنى بدلاً من يتسنى) يُعد من التفاصح الصوتي.',
+                answer: 'صح'
+            },
+            {
+                id: 63,
+                type: 'multiple',
+                question: 'من التفاصح الصرفي "همز ما لا يهمز" مثل قول:',
+                options: [
+                    'مارب',
+                    'مأرب',
+                    'ميرب'
+                ],
+                answer: 'مأرب'
+            },
+            {
+                id: 64,
+                type: 'truefalse',
+                question: 'الصواب في وصف الشريعة قولنا "الشريعة السمحاء".',
+                answer: 'خطأ',
+                explanation: 'الصواب: "السمحة" لأن صيغة فعلى للمبالغة لا تصلح للعلم المؤنث'
+            },
+            {
+                id: 65,
+                type: 'multiple',
+                question: 'القاعدة في العدد (11-19) هي البناء على:',
+                options: [
+                    'السكون',
+                    'فتح الجزأين',
+                    'الضم'
+                ],
+                answer: 'فتح الجزأين'
+            },
+            {
+                id: 66,
+                type: 'truefalse',
+                question: 'جر الممنوع من الصرف بالكسرة (مثل: في مناطقٍ) يُعد من أخطاء التفاصح.',
+                answer: 'صح'
+            },
+            {
+                id: 67,
+                type: 'multiple',
+                question: 'نطق "مشايخ" بالهمزة "مشائخ" هو:',
+                options: [
+                    'صواب فصيح',
+                    'خطأ تفاصحي',
+                    'لهجة قديمة'
+                ],
+                answer: 'خطأ تفاصحي'
+            },
+            {
+                id: 68,
+                type: 'truefalse',
+                question: 'التفاصح قد يكون في النطق وقد يكون في الكتابة.',
+                answer: 'صح'
+            },
+            {
+                id: 69,
+                type: 'multiple',
+                question: 'نطق "الزاي" ذالاً (مثل: ذبيب بدلاً من زبيب) هو خطأ:',
+                options: [
+                    'نحوي',
+                    'صوتي',
+                    'دلالي'
+                ],
+                answer: 'صوتي'
+            },
+            {
+                id: 70,
+                type: 'truefalse',
+                question: 'الصواب هو "مشايخ" و"معايب" و"مصايد" بالياء لا بالهمزة.',
+                answer: 'صح'
+            },
+
+            // مقدمة (تاريخ التدوين) (71-80)
+            {
+                id: 71,
+                type: 'multiple',
+                question: 'تدوين القرآن وصناعة المصحف في عهد عثمان بن عفان كان في عام:',
+                options: [
+                    '15 هـ',
+                    '25 هـ',
+                    '35 هـ'
+                ],
+                answer: '25 هـ'
+            },
+            {
+                id: 72,
+                type: 'truefalse',
+                question: 'يُعتبر تدوين القرآن أعظم مشروع استراتيجي لأنه حفظ النص من التحريف.',
+                answer: 'صح'
+            },
+            {
+                id: 73,
+                type: 'multiple',
+                question: 'مخترعو الكتابة الأوائل هم:',
+                options: [
+                    'الفينيقيون',
+                    'السومريون (الشومريون)',
+                    'الرومان'
+                ],
+                answer: 'السومريون (الشومريون)'
+            },
+            {
+                id: 74,
+                type: 'truefalse',
+                question: '"الشومريون" هم قبائل يمنية هاجرت واستوطنت العراق.',
+                answer: 'صح'
+            },
+            {
+                id: 75,
+                type: 'multiple',
+                question: 'اعتمدت لجنة تدوين المصحف لغة:',
+                options: [
+                    'تميم',
+                    'قريش',
+                    'حمير'
+                ],
+                answer: 'قريش'
+            },
+            {
+                id: 76,
+                type: 'truefalse',
+                question: 'نظام الإملاء في المصحف كان مزيجاً من الإملاء اليمني والعراقي السوري.',
+                answer: 'صح'
+            },
+            {
+                id: 77,
+                type: 'multiple',
+                question: 'اقترح المصدر مصطلح "اللغات النوحية" كبديل لمصطلح:',
+                options: [
+                    'اللغات السامية',
+                    'اللغات الحامية',
+                    'اللغات الآرية'
+                ],
+                answer: 'اللغات السامية'
+            },
+            {
+                id: 78,
+                type: 'truefalse',
+                question: 'كانت نسبة الأمية في المجتمعات القديمة قبل الإسلام تتجاوز 80%.',
+                answer: 'صح'
+            },
+            {
+                id: 79,
+                type: 'multiple',
+                question: 'المرحلة الأولى من مراحل الكتابة هي:',
+                options: [
+                    'الرموز',
+                    'التصوير',
+                    'المقاطع'
+                ],
+                answer: 'التصوير'
+            },
+            {
+                id: 80,
+                type: 'truefalse',
+                question: 'الخط العربي في أصله مأخوذ من الخط الآرامي النبطي.',
+                answer: 'صح'
+            },
+
+            // الإملاء وعلوم اللغة (81-90)
+            {
+                id: 81,
+                type: 'multiple',
+                question: 'تكتب الهمزة المتوسطة قبل الضمير على الواو (مثل: أصدقاؤنا) في حالة:',
+                options: [
+                    'النصب',
+                    'الرفع',
+                    'الجر'
+                ],
+                answer: 'الرفع'
+            },
+            {
+                id: 82,
+                type: 'truefalse',
+                question: 'يتحدد شكل الألف في نهاية الفعل (ممدودة أو مقصورة) بحسب أصله الصرفي.',
+                answer: 'صح'
+            },
+            {
+                id: 83,
+                type: 'multiple',
+                question: 'القاعدة "الذهبية" الأولى في الإملاء هي اعتماد شكل الحرف بناءً على:',
+                options: [
+                    'طول الكلمة',
+                    'الحركة الأقوى',
+                    'نوع الحبر'
+                ],
+                answer: 'الحركة الأقوى'
+            },
+            {
+                id: 84,
+                type: 'truefalse',
+                question: 'تُحذف ياء الاسم المنقوص (مثل: قاضٍ) إذا كان "مفرداً" في حالتي الرفع والجر.',
+                answer: 'صح'
+            },
+            {
+                id: 85,
+                type: 'multiple',
+                question: 'تُرسم الألف ممدودة "علوية" (مثل: دنا) إذا كان أصلها:',
+                options: [
+                    'ياءً',
+                    'واواً',
+                    'ألفاً'
+                ],
+                answer: 'واواً'
+            },
+            {
+                id: 86,
+                type: 'truefalse',
+                question: 'يفرق الإملاء دلالياً بين "ندا" (مذكر) و"ندى" (مؤنث).',
+                answer: 'صح'
+            },
+            {
+                id: 87,
+                type: 'multiple',
+                question: 'قاعدة "كراهة توالي الأمثال" تعني منع كتابة:',
+                options: [
+                    'حرفين مختلفين',
+                    'حرفين متطابقين متتاليين',
+                    'أكثر من ثلاث كلمات'
+                ],
+                answer: 'حرفين متطابقين متتاليين'
+            },
+            {
+                id: 88,
+                type: 'truefalse',
+                question: 'تُرسم الهمزة المتوسطة على السطر (مثل: أصدقاءنا) في حالة النصب.',
+                answer: 'صح'
+            },
+            {
+                id: 89,
+                type: 'multiple',
+                question: 'الحركة الأقوى في سلم الحركات الإملائية هي:',
+                options: [
+                    'الضمة',
+                    'الكسرة',
+                    'الفتحة'
+                ],
+                answer: 'الكسرة'
+            },
+            {
+                id: 90,
+                type: 'truefalse',
+                question: 'علم الدلالة يساعد في التمييز بين "عَال" (مفرد) و"عُلى" (جمع) إملائياً.',
+                answer: 'صح'
+            },
+
+            // مشكلات الإملاء في اللغة العربية (91-100)
+            {
+                id: 91,
+                type: 'multiple',
+                question: 'أكبر معضلة في الإملاء العربي هي:',
+                options: [
+                    'حرف الميم',
+                    'الهمزة',
+                    'اللام القمرية'
+                ],
+                answer: 'الهمزة'
+            },
+            {
+                id: 92,
+                type: 'truefalse',
+                question: 'أضيفت الألف في كلمة "مائة" قديماً لتمييزها عن كلمات مثل "فئة" قبل اختراع النقط.',
+                answer: 'صح'
+            },
+            {
+                id: 93,
+                type: 'multiple',
+                question: 'يُقترح في الإملاء الحديث كتابة "مئة" بدون ألف لـ:',
+                options: [
+                    'تحقيق التوافق بين النطق والمكتوب',
+                    'اختصار الوقت',
+                    'تجميل الخط'
+                ],
+                answer: 'تحقيق التوافق بين النطق والمكتوب'
+            },
+            {
+                id: 94,
+                type: 'truefalse',
+                question: 'من مشكلات الإملاء رسم الحرف الواحد بأكثر من شكل كالهمزة.',
+                answer: 'صح'
+            },
+            {
+                id: 95,
+                type: 'multiple',
+                question: 'أول من فطن لقانون "توالي الأمثال" في الخط هو:',
+                options: [
+                    'سيبويه',
+                    'ابن درستويه',
+                    'الفراء'
+                ],
+                answer: 'الفراء'
+            },
+            {
+                id: 96,
+                type: 'truefalse',
+                question: 'ازدواجية اللغة بين الفصحى والعامية تؤدي لخلط المتعلمين بين الأصوات المتشابهة.',
+                answer: 'صح'
+            },
+            {
+                id: 97,
+                type: 'multiple',
+                question: 'وضع الخليل بن أحمد رمز الهمزة لتحقيق:',
+                options: [
+                    'التباعد بين الكلمات',
+                    'التطابق بين الكتابة والنطق',
+                    'سرعة الكتابة'
+                ],
+                answer: 'التطابق بين الكتابة والنطق'
+            },
+            {
+                id: 98,
+                type: 'truefalse',
+                question: 'المجمع اللغوي السوري يرى وجوب مطابقة المنطوق للمكتوب ما أمكن.',
+                answer: 'صح'
+            },
+            {
+                id: 99,
+                type: 'multiple',
+                question: 'يكتب المصريون الألف المقصورة "ياءً منقوطة" (مثل: علي) وهذا ناتج عن:',
+                options: [
+                    'نظام المخطوطات القديم',
+                    'قاعدة حديثة',
+                    'خطأ مطبعي'
+                ],
+                answer: 'نظام المخطوطات القديم'
+            },
+            {
+                id: 100,
+                type: 'truefalse',
+                question: 'تُحذف همزة الوصل خطاً في "البسملة" الكاملة فقط.',
+                answer: 'صح'
+            },
+
+            // أنواع الرسم العربي (101-110)
+            {
+                id: 101,
+                type: 'multiple',
+                question: 'الرسم الذي لا يجوز المساس به أو تعديله هو:',
+                options: [
+                    'الرسم الإملائي الحديث',
+                    'الرسم القرآني (العثماني)',
+                    'رسم المخطوطات العلمية'
+                ],
+                answer: 'الرسم القرآني (العثماني)'
+            },
+            {
+                id: 102,
+                type: 'truefalse',
+                question: 'الرسم القرآني "موقوف" وتراث أمة وكتاب عقيدة.',
+                answer: 'صح'
+            },
+            {
+                id: 103,
+                type: 'multiple',
+                question: 'كلمة "يأيها" تُكتب في المصحف:',
+                options: [
+                    'منفصلة (يا أيها)',
+                    'متصلة (يأيها)',
+                    'بدون ألف'
+                ],
+                answer: 'متصلة (يأيها)'
+            },
+            {
+                id: 104,
+                type: 'truefalse',
+                question: 'أفتى الإمام مالك بمنع كتابة المصحف على ما أحدثه الناس من قواعد هجاء.',
+                answer: 'صح'
+            },
+            {
+                id: 105,
+                type: 'multiple',
+                question: 'الفرق بين الرسمين يظهر في حذف أو زيادة أحرف لغرض:',
+                options: [
+                    'الزينة',
+                    'التوقيف الشرعي في المصحف',
+                    'السرعة'
+                ],
+                answer: 'التوقيف الشرعي في المصحف'
+            },
+            {
+                id: 106,
+                type: 'truefalse',
+                question: 'يُعتبر توحيد رسم "الضاد والظاء" دعوة مرفوضة لفساد المعنى الدلالي.',
+                answer: 'صح'
+            },
+            {
+                id: 107,
+                type: 'multiple',
+                question: 'الرسم القرآني يعتمد أحياناً على:',
+                options: [
+                    'تسهيل الهمز (لهجة قريش)',
+                    'تشديد كل الحروف',
+                    'الخط الكوفي فقط'
+                ],
+                answer: 'تسهيل الهمز (لهجة قريش)'
+            },
+            {
+                id: 108,
+                type: 'truefalse',
+                question: 'يُمنع الاجتهاد في رسم المصحف حتى لو كان لغرض التعليم.',
+                answer: 'صح'
+            },
+            {
+                id: 109,
+                type: 'multiple',
+                question: 'كتابة "مائة" بالألف هي من خصائص:',
+                options: [
+                    'الإملاء الحديث فقط',
+                    'الرسم القرآني والقديم',
+                    'الصحافة'
+                ],
+                answer: 'الرسم القرآني والقديم'
+            },
+            {
+                id: 110,
+                type: 'truefalse',
+                question: 'الرسم الإملائي الحديث يهدف لتجاوز الحالات الشاذة وجعل القواعد مطردة.',
+                answer: 'صح'
+            },
+
+            // الإملاء والألف (111-120)
+            {
+                id: 111,
+                type: 'multiple',
+                question: 'تُزاد الألف (ألف الإطلاق) في نهاية:',
+                options: [
+                    'الأسماء',
+                    'الأبيات الشعرية عند الحاجة',
+                    'الأفعال المضارعة المرفوعة'
+                ],
+                answer: 'الأبيات الشعرية عند الحاجة'
+            },
+            {
+                id: 112,
+                type: 'truefalse',
+                question: 'تُحذف ألف "ما" الاستفهامية إذا سبقت بحرف جر (مثل: بِمَ، عَمَّ).',
+                answer: 'صح'
+            },
+            {
+                id: 113,
+                type: 'multiple',
+                question: 'تُكتب الألف "سفلية" (مقصورة) في الأفعال:',
+                options: [
+                    'الثلاثية التي أصلها واو',
+                    'فوق الثلاثية (الرباعي والخماسي) مطلقاً (مثل: أعطى)',
+                    'التي تنتهي بهمزة'
+                ],
+                answer: 'فوق الثلاثية (الرباعي والخماسي) مطلقاً (مثل: أعطى)'
+            },
+            {
+                id: 114,
+                type: 'truefalse',
+                question: 'تُكتب الألف ممدودة في كلمة "لكن".',
+                answer: 'خطأ',
+                explanation: 'تُنطق ولا تُكتب'
+            },
+            {
+                id: 115,
+                type: 'multiple',
+                question: 'تُزاد "الألف الفارقة" بعد واو الجماعة في:',
+                options: [
+                    'جمع المذكر السالم (مهندسو)',
+                    'الأفعال (مثل: لم يفعلوا)',
+                    'الأسماء الخمسة'
+                ],
+                answer: 'الأفعال (مثل: لم يفعلوا)'
+            },
+            {
+                id: 116,
+                type: 'truefalse',
+                question: 'تُحذف الألف خطاً في كلمات (إله، طه، الرحمن) بالرسم القرآني.',
+                answer: 'صح'
+            },
+            {
+                id: 117,
+                type: 'multiple',
+                question: 'تُكتب الألف مقصورة سفلية إذا كان قبلها ياء في اسم العلم:',
+                options: [
+                    'يحيى',
+                    'ثريا',
+                    'دنيا'
+                ],
+                answer: 'يحيى'
+            },
+            {
+                id: 118,
+                type: 'truefalse',
+                question: 'تُكتب "ها أنذا" بحذف ألف "أنا" لتجنب توالي ثلاث ألفات.',
+                answer: 'صح'
+            },
+            {
+                id: 119,
+                type: 'multiple',
+                question: 'كلمة "إذن" الصواب كتابتها بالنون لـ:',
+                options: [
+                    'تمييزها عن "إذا" الشرطية',
+                    'تسهيل النطق',
+                    'اتباع رسم المصحف'
+                ],
+                answer: 'تمييزها عن "إذا" الشرطية'
+            },
+            {
+                id: 120,
+                type: 'truefalse',
+                question: 'تُكتب الألف في أسماء الأعلام الأعجمية (مثل: أمريكا، آسيا) ممدودة غالباً.',
+                answer: 'صح'
             }
         ];
+
+        // ثوابت التطبيق
+        const TOTAL_QUESTIONS_IN_DB = 120; // إجمالي الأسئلة في قاعدة البيانات
+        const QUESTIONS_TO_SELECT = 30; // عدد الأسئلة المختارة عشوائياً - تم تغييره من 50 إلى 30
+
+        // متغيرات التطبيق
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let startTime = null;
+        let timerInterval = null;
+        let timeLeft = 60 * 60; // 60 دقيقة 
+        let examCompleted = false;
+        let currentQuestions = [];
+        let shuffledQuestions = [];
+        let usedQuestionIds = new Set(); // لتتبع الأسئلة المستخدمة
+        let currentSessionQuestions = []; // الأسئلة الحالية للجلسة
+
+        // عناصر DOM
+        const startScreen = document.getElementById('startScreen');
+        const examScreen = document.getElementById('examScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const startExamBtn = document.getElementById('startExamBtn');
+        const endExamBtn = document.getElementById('endExamBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const questionText = document.getElementById('questionText');
+        const questionNumber = document.getElementById('questionNumber');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const progressPercent = document.getElementById('progressPercent');
+        const timer = document.getElementById('timer');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const reviewBtn = document.getElementById('reviewBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        const newTestBtn = document.getElementById('newTestBtn');
+        const reviewSection = document.getElementById('reviewSection');
+        const wrongAnswersList = document.getElementById('wrongAnswersList');
+        const noWrongAnswers = document.getElementById('noWrongAnswers');
+        const closeReviewBtn = document.getElementById('closeReviewBtn');
+        const finalScore = document.getElementById('finalScore');
+        const percentage = document.getElementById('percentage');
+        const grade = document.getElementById('grade');
+        const correctAnswers = document.getElementById('correctAnswers');
+        const wrongAnswers = document.getElementById('wrongAnswers');
+        const timeTaken = document.getElementById('timeTaken');
+        const scorePercentage = document.getElementById('scorePercentage');
+        const scoreCircle = document.getElementById('scoreCircle');
+        const confirmModal = document.getElementById('confirmModal');
+        const cancelEndBtn = document.getElementById('cancelEndBtn');
+        const confirmEndBtn = document.getElementById('confirmEndBtn');
+        const remainingQuestions = document.getElementById('remainingQuestions');
+        const unansweredAlert = document.getElementById('unansweredAlert');
+        const unansweredCount = document.getElementById('unansweredCount');
+        const questionsGrid = document.getElementById('questionsGrid');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        // دالة التمرير إلى الأعلى
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.setAttribute('data-theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                darkModeToggle.title = 'الوضع النهاري';
+            } else {
+                darkModeToggle.title = 'الوضع الليلي';
+            }
+            
+            // إضافة فئة الانتقال للمواضيع للعناصر الرئيسية
+            document.querySelectorAll('.container, .navbar, .footer, .screen, .exam-header, .instructions, .exam-controls, .questions-nav-grid, .question-container, .review-section, .result-card, .modal-content').forEach(el => {
+                el.classList.add('theme-transition');
+            });
+            
+            initializeEventListeners();
+            setupScrollTop();
+        });
+
+        // إعداد زر التمرير للأعلى
+        function setupScrollTop() {
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', scrollToTop);
+        }
+
+        // تهيئة مستمعي الأحداث
+        function initializeEventListeners() {
+            startExamBtn.addEventListener('click', () => {
+                startExam();
+                setTimeout(scrollToTop, 100);
+            });
+            
+            endExamBtn.addEventListener('click', showConfirmModal);
+            
+            prevBtn.addEventListener('click', () => {
+                prevQuestion();
+                setTimeout(scrollToTop, 50);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                nextQuestion();
+                setTimeout(scrollToTop, 50);
+            });
+            
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            reviewBtn.addEventListener('click', toggleReview);
+            retryBtn.addEventListener('click', retryExam);
+            newTestBtn.addEventListener('click', startNewExam);
+            closeReviewBtn.addEventListener('click', () => reviewSection.style.display = 'none');
+            cancelEndBtn.addEventListener('click', () => confirmModal.style.display = 'none');
+            confirmEndBtn.addEventListener('click', endExam);
+            
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal) confirmModal.style.display = 'none';
+            });
+        }
+
+        // بدء الامتحان
+        function startExam() {
+            startScreen.classList.remove('active');
+            examScreen.classList.add('active');
+            
+            startTime = new Date();
+            timeLeft = 60 * 60; // 60 دقيقة
+            userAnswers = [];
+            examCompleted = false;
+            currentQuestionIndex = 0;
+            
+            selectRandomQuestions();
+            shuffleAllOptions();
+            
+            startTimer();
+            loadQuestion(currentQuestionIndex);
+            updateQuestionsGrid();
+            updateUnansweredAlert();
+        }
+
+        // اختيار 30 سؤال عشوائي مع تجنب التكرار ما أمكن - تم تغييره من 50 إلى 30
+        function selectRandomQuestions() {
+            // إذا كانت هناك أسئلة كافية غير مستخدمة
+            let availableQuestions = quizQuestions.filter(q => !usedQuestionIds.has(q.id));
+            
+            // إذا لم يكن هناك ما يكفي من الأسئلة غير المستخدمة، أعد استخدام الأسئلة
+            if (availableQuestions.length < QUESTIONS_TO_SELECT) {
+                // أضف بعض الأسئلة المستخدمة سابقاً
+                let usedQuestions = quizQuestions.filter(q => usedQuestionIds.has(q.id));
+                // اختر عشوائياً من الأسئلة المستخدمة لإكمال العدد المطلوب
+                const needed = QUESTIONS_TO_SELECT - availableQuestions.length;
+                const randomUsed = shuffleArray([...usedQuestions]).slice(0, needed);
+                availableQuestions = [...availableQuestions, ...randomUsed];
+                
+                // أفرغ مجموعة الأسئلة المستخدمة للبدء من جديد
+                usedQuestionIds.clear();
+            }
+            
+            // اختر 30 سؤالاً عشوائياً - تم تغييره من 50 إلى 30
+            currentQuestions = shuffleArray(availableQuestions).slice(0, QUESTIONS_TO_SELECT);
+            
+            // أضف الأسئلة المختارة إلى مجموعة الأسئلة المستخدمة
+            currentQuestions.forEach(q => usedQuestionIds.add(q.id));
+            
+            // حفظ الأسئلة الحالية للجلسة
+            currentSessionQuestions = [...currentQuestions];
+            
+            userAnswers = new Array(currentQuestions.length).fill(null);
+        }
+
+        // دالة مساعدة لخلط المصفوفة
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // خلط خيارات جميع الأسئلة
+        function shuffleAllOptions() {
+            shuffledQuestions = currentQuestions.map(question => {
+                if (question.type === 'multiple') {
+                    const optionsCopy = [...question.options];
+                    const correctAnswer = question.answer;
+                    
+                    // خلط الخيارات
+                    for (let i = optionsCopy.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [optionsCopy[i], optionsCopy[j]] = [optionsCopy[j], optionsCopy[i]];
+                    }
+                    
+                    // إيجاد الفهرس الجديد للإجابة الصحيحة
+                    const newCorrectIndex = optionsCopy.indexOf(correctAnswer);
+                    
+                    return {
+                        ...question,
+                        shuffledOptions: optionsCopy,
+                        shuffledCorrect: newCorrectIndex
+                    };
+                } else {
+                    // أسئلة الصح والخطأ
+                    return {
+                        ...question,
+                        shuffledOptions: ['صح', 'خطأ'],
+                        shuffledCorrect: question.answer === 'صح' ? 0 : 1
+                    };
+                }
+            });
+        }
+
+        // تحميل السؤال
+        function loadQuestion(index) {
+            const question = shuffledQuestions[index];
+            
+            questionNumber.textContent = `س${index + 1}`;
+            questionText.textContent = question.question;
+            
+            const progress = ((index + 1) / shuffledQuestions.length) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `السؤال ${index + 1} من ${shuffledQuestions.length}`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === shuffledQuestions.length - 1 ? 'إنهاء الاختبار' : 'التالي';
+            
+            const options = question.shuffledOptions;
+            optionsContainer.innerHTML = '';
+            
+            options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] === optionIndex) {
+                    optionElement.classList.add('selected');
+                }
+                
+                const marker = document.createElement('div');
+                marker.className = 'option-marker';
+                marker.textContent = String.fromCharCode(1632 + optionIndex + 1);
+                
+                const text = document.createElement('div');
+                text.className = 'option-text';
+                text.textContent = option;
+                
+                optionElement.appendChild(marker);
+                optionElement.appendChild(text);
+                
+                optionElement.addEventListener('click', () => selectOption(optionIndex));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            updateQuestionStatus(index);
+            updateQuestionsGrid();
+        }
+
+        // تحديث حالة السؤال
+        function updateQuestionStatus(index) {
+            const statusElement = document.getElementById('questionStatus');
+            if (userAnswers[index] === null) {
+                statusElement.innerHTML = '<i class="fas fa-star"></i> جديد';
+                statusElement.style.color = 'var(--warning-color)';
+            } else {
+                statusElement.innerHTML = '<i class="fas fa-check"></i> تم الإجابة';
+                statusElement.style.color = 'var(--success-color)';
+            }
+        }
+
+        // تحديث شبكة التنقل بين الأسئلة
+        function updateQuestionsGrid() {
+            questionsGrid.innerHTML = '';
+            
+            shuffledQuestions.forEach((_, index) => {
+                const questionBtn = document.createElement('button');
+                questionBtn.className = 'question-nav-btn';
+                questionBtn.textContent = index + 1;
+                
+                // تحديد حالة الزر
+                if (index === currentQuestionIndex) {
+                    questionBtn.classList.add('current');
+                } else if (userAnswers[index] !== null) {
+                    questionBtn.classList.add('answered');
+                } else {
+                    questionBtn.classList.add('unanswered');
+                }
+                
+                questionBtn.addEventListener('click', () => {
+                    currentQuestionIndex = index;
+                    loadQuestion(currentQuestionIndex);
+                    setTimeout(scrollToTop, 50);
+                });
+                
+                questionsGrid.appendChild(questionBtn);
+            });
+        }
+
+        // تحديث تنبيه الأسئلة غير المحلولة
+        function updateUnansweredAlert() {
+            const unanswered = userAnswers.filter(answer => answer === null).length;
+            if (unanswered > 0) {
+                unansweredCount.textContent = `${unanswered} أسئلة من أصل ${shuffledQuestions.length}`;
+                unansweredAlert.style.display = 'flex';
+            } else {
+                unansweredAlert.style.display = 'none';
+            }
+        }
+
+        // اختيار إجابة
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            loadQuestion(currentQuestionIndex);
+            updateUnansweredAlert();
+        }
+
+        // السؤال السابق
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        // السؤال التالي
+        function nextQuestion() {
+            if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                showConfirmModal();
+            }
+        }
+
+        // عرض نموذج تأكيد إنهاء الاختبار
+        function showConfirmModal() {
+            const unanswered = userAnswers.filter(answer => answer === null).length;
+            remainingQuestions.textContent = unanswered;
+            confirmModal.style.display = 'flex';
+        }
+
+        // إنهاء الامتحان
+        function endExam() {
+            confirmModal.style.display = 'none';
+            clearInterval(timerInterval);
+            examCompleted = true;
+            
+            examScreen.classList.remove('active');
+            resultsScreen.classList.add('active');
+            
+            calculateResults();
+            if (parseInt(correctAnswers.textContent) >= Math.ceil(shuffledQuestions.length * 0.6)) {
+                showConfetti();
+            }
+            
+            setTimeout(scrollToTop, 100);
+        }
+
+        // بدء المؤقت
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    endExam();
+                }
+            }, 1000);
+        }
+
+        // تحديث عرض المؤقت
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timer.querySelector('span').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft < 300) {
+                timer.style.color = 'var(--accent-color)';
+            } else if (timeLeft < 600) {
+                timer.style.color = 'var(--warning-color)';
+            }
+        }
+
+        // حساب النتائج
+        function calculateResults() {
+            let correctCount = 0;
+            let wrongCount = 0;
+            
+            shuffledQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                
+                if (userAnswer !== null && userAnswer === question.shuffledCorrect) {
+                    correctCount++;
+                } else if (userAnswer !== null) {
+                    wrongCount++;
+                }
+            });
+            
+            const score = correctCount;
+            const totalQuestions = shuffledQuestions.length;
+            const scorePercentageValue = (correctCount / totalQuestions) * 100;
+            
+            finalScore.textContent = `${score}/${totalQuestions}`;
+            percentage.textContent = `${scorePercentageValue.toFixed(1)}%`;
+            scorePercentage.textContent = `${scorePercentageValue.toFixed(1)}%`;
+            correctAnswers.textContent = correctCount;
+            wrongAnswers.textContent = wrongCount;
+            
+            let gradeText = '';
+            if (scorePercentageValue >= 90) gradeText = 'امتياز';
+            else if (scorePercentageValue >= 80) gradeText = 'جيد جداً';
+            else if (scorePercentageValue >= 70) gradeText = 'جيد';
+            else if (scorePercentageValue >= 60) gradeText = 'مقبول';
+            else gradeText = 'راسب';
+            
+            grade.textContent = gradeText;
+            grade.style.color = scorePercentageValue >= 60 ? 'var(--success-color)' : 'var(--accent-color)';
+            
+            const endTime = new Date();
+            const timeDiff = Math.floor((endTime - startTime) / 1000);
+            const minutesTaken = Math.floor(timeDiff / 60);
+            const secondsTaken = timeDiff % 60;
+            timeTaken.textContent = `${minutesTaken}:${secondsTaken.toString().padStart(2, '0')}`;
+            
+            const circleLength = 800;
+            const offset = circleLength - (circleLength * (scorePercentageValue / 100));
+            scoreCircle.style.strokeDashoffset = offset;
+            
+            if (scorePercentageValue >= 90) {
+                scoreCircle.style.stroke = '#9b59b6';
+            } else if (scorePercentageValue >= 80) {
+                scoreCircle.style.stroke = 'var(--success-color)';
+            } else if (scorePercentageValue >= 70) {
+                scoreCircle.style.stroke = '#2ecc71';
+            } else if (scorePercentageValue >= 60) {
+                scoreCircle.style.stroke = 'var(--warning-color)';
+            } else {
+                scoreCircle.style.stroke = 'var(--accent-color)';
+            }
+        }
+
+        // تأثير الكونفيتي
+        function showConfetti() {
+            const colors = ['#4299e1', '#e53e3e', '#38a169', '#d69e2e', '#9b59b6'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.opacity = '0.8';
+                    confetti.style.borderRadius = '50%';
+                    document.body.appendChild(confetti);
+                    
+                    const animation = confetti.animate([
+                        { transform: 'translateY(0) rotate(0deg)', opacity: 0.8 },
+                        { transform: `translateY(${window.innerHeight}px) rotate(${360 + Math.random() * 360}deg)`, opacity: 0 }
+                    ], {
+                        duration: 2000 + Math.random() * 2000,
+                        easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+                    });
+                    
+                    animation.onfinish = () => confetti.remove();
+                }, i * 50);
+            }
+        }
+
+        // تبديل الوضع الليلي مع تحسين الانتقالات
+        function toggleDarkMode() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            
+            // إضافة تأثير انتقال سلس
+            document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
+            
+            if (isDark) {
+                document.body.removeAttribute('data-theme');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                darkModeToggle.title = 'الوضع الليلي';
+                localStorage.setItem('darkMode', 'false');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                darkModeToggle.title = 'الوضع النهاري';
+                localStorage.setItem('darkMode', 'true');
+            }
+            
+            // إعادة تعيين الانتقال بعد التغيير
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 500);
+        }
+
+        // عرض/إخفاء المراجعة - تظهر الإجابات الخاطئة فقط
+        function toggleReview() {
+            const isVisible = reviewSection.style.display === 'block';
+            
+            if (isVisible) {
+                reviewSection.style.display = 'none';
+                reviewBtn.innerHTML = '<i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة';
+                setTimeout(scrollToTop, 100);
+            } else {
+                reviewSection.style.display = 'block';
+                reviewBtn.innerHTML = '<i class="fas fa-times"></i> إغلاق المراجعة';
+                generateWrongAnswersReview();
+                setTimeout(() => {
+                    reviewSection.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+
+        // توليد مراجعة الإجابات الخاطئة فقط
+        function generateWrongAnswersReview() {
+            wrongAnswersList.innerHTML = '';
+            let wrongCount = 0;
+            
+            shuffledQuestions.forEach((question, index) => {
+                const userAnswerIndex = userAnswers[index];
+                
+                // عرض فقط الأسئلة التي أجاب عليها المستخدم بشكل خاطئ
+                if (userAnswerIndex !== null && userAnswerIndex !== question.shuffledCorrect) {
+                    wrongCount++;
+                    
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'review-item';
+                    
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'review-question';
+                    questionDiv.textContent = `${index + 1}. ${question.question}`;
+                    
+                    const answersDiv = document.createElement('div');
+                    answersDiv.className = 'review-answers';
+                    
+                    const userAnswerItem = document.createElement('div');
+                    userAnswerItem.className = 'answer-item user-answer';
+                    userAnswerItem.innerHTML = `
+                        <i class="fas fa-user"></i>
+                        <span>إجابتك: ${question.shuffledOptions[userAnswerIndex]}</span>
+                    `;
+                    answersDiv.appendChild(userAnswerItem);
+                    
+                    const correctAnswerItem = document.createElement('div');
+                    correctAnswerItem.className = 'answer-item correct-answer';
+                    correctAnswerItem.innerHTML = `
+                        <i class="fas fa-check"></i>
+                        <span>الإجابة الصحيحة: ${question.shuffledOptions[question.shuffledCorrect]}</span>
+                    `;
+                    answersDiv.appendChild(correctAnswerItem);
+                    
+                    if (question.explanation) {
+                        const explanationDiv = document.createElement('div');
+                        explanationDiv.style.marginTop = '0.5rem';
+                        explanationDiv.style.fontSize = '0.95rem';
+                        explanationDiv.style.color = 'var(--text-color)';
+                        explanationDiv.style.opacity = '0.8';
+                        explanationDiv.textContent = question.explanation;
+                        answersDiv.appendChild(explanationDiv);
+                    }
+                    
+                    reviewItem.appendChild(questionDiv);
+                    reviewItem.appendChild(answersDiv);
+                    wrongAnswersList.appendChild(reviewItem);
+                }
+            });
+            
+            // إذا لم تكن هناك إجابات خاطئة
+            if (wrongCount === 0) {
+                wrongAnswersList.style.display = 'none';
+                noWrongAnswers.style.display = 'block';
+            } else {
+                wrongAnswersList.style.display = 'block';
+                noWrongAnswers.style.display = 'none';
+            }
+        }
+
+        // إعادة نفس الاختبار - استخدام نفس الأسئلة الحالية
+        function retryExam() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(shuffledQuestions.length).fill(null);
+            examCompleted = false;
+            
+            resultsScreen.classList.remove('active');
+            examScreen.classList.add('active');
+            
+            reviewSection.style.display = 'none';
+            reviewBtn.innerHTML = '<i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة';
+            
+            startTime = new Date();
+            timeLeft = 60 * 60; // 60 دقيقة
+            startTimer();
+            loadQuestion(currentQuestionIndex);
+            updateUnansweredAlert();
+            
+            setTimeout(scrollToTop, 100);
+        }
+
+        // اختبار جديد - حاول استخدام أسئلة مختلفة
+        function startNewExam() {
+            startScreen.classList.remove('active');
+            examScreen.classList.add('active');
+            resultsScreen.classList.remove('active');
+            
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            examCompleted = false;
+            
+            selectRandomQuestions();
+            shuffleAllOptions();
+            
+            startTime = new Date();
+            timeLeft = 60 * 60; // 60 دقيقة 
+            startTimer();
+            loadQuestion(currentQuestionIndex);
+            updateUnansweredAlert();
+            
+            reviewSection.style.display = 'none';
+            reviewBtn.innerHTML = '<i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة';
+            
+            setTimeout(scrollToTop, 100);
+        }
     </script>
 </body>
 </html>
