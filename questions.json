@@ -1,25 +1,27 @@
-[
+{
+  "name": "امتحان اللغة العربية",
+  "short_name": "امتحان عربي",
+  "description": "امتحان إلكتروني للغة العربية - جامعة صنعاء",
+  "start_url": "/arabic-exam/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c5282",
+  "orientation": "portrait",
+  "icons": [
     {
-        "id": 1,
-        "question": "مسؤوليتنا اليوم تجاه العدو الإسرائيلي",
-        "options": [
-            "إحياء حالة العداء له",
-            "الولاء له",
-            "مسح النظرة العدائية له",
-            "التطبيع معه"
-        ],
-        "correct": 1
+      "src": "assets/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-        "id": 2,
-        "question": "عرض القرآن الكريم للنفسية اليهودية",
-        "options": [
-            "لا يودون أن ينزل على الناس من خير من ربهم",
-            "أشد عداوة للمؤمنين",
-            "العدوانية والوحشية",
-            "كل ما ذكر"
-        ],
-        "correct": 4
+      "src": "assets/img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-    // ... باقي الأسئلة
-]
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "ar",
+  "dir": "rtl"
+}
